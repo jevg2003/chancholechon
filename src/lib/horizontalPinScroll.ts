@@ -5,16 +5,19 @@ gsap.registerPlugin(ScrollTrigger);
 
 /** Desktop pin distance for the Somos horizontal scroll — exported so the
  * shape physics' offscreen-pause trigger can account for the same span. */
-export const SOMOS_PIN_DISTANCE = 3800;
+export const SOMOS_PIN_DISTANCE = 4200;
 
 /**
  * Pins `.somos-historia` and scrubs `.somos-track` horizontally across its
- * three panels, dwelling on each one so it can be read before advancing.
- * Each panel's content fades/slides in as it arrives — the first via a
- * normal ScrollTrigger, the rest via containerAnimation since they never
- * cross a vertical trigger point on their own.
+ * panels, dwelling on each one so it can be read before advancing. Each
+ * panel's content fades/slides in as it arrives — the first via a normal
+ * ScrollTrigger, the rest via containerAnimation since they never cross a
+ * vertical trigger point on their own.
  */
 export function initSomosHorizontalScroll(): void {
+	const panelCount = gsap.utils.toArray('.somos-panel').length;
+	const stepPercent = 100 / panelCount;
+
 	const scrollTween = gsap.timeline({
 		scrollTrigger: {
 			trigger: '.somos-historia',
@@ -26,12 +29,12 @@ export function initSomosHorizontalScroll(): void {
 	});
 
 	// Dwell on each panel so it can be read before the track moves on.
-	scrollTween
-		.to({}, { duration: 0.4 })
-		.to('.somos-track', { xPercent: -33.333, duration: 0.5, ease: 'none' })
-		.to({}, { duration: 0.45 })
-		.to('.somos-track', { xPercent: -66.667, duration: 0.5, ease: 'none' })
-		.to({}, { duration: 0.5 });
+	scrollTween.to({}, { duration: 0.4 });
+	for (let step = 1; step < panelCount; step++) {
+		scrollTween
+			.to('.somos-track', { xPercent: -stepPercent * step, duration: 0.5, ease: 'none' })
+			.to({}, { duration: 0.45 });
+	}
 
 	gsap.utils.toArray<HTMLElement>('.somos-panel').forEach((panel, i) => {
 		const inner = panel.querySelector('.somos-inner');

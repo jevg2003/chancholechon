@@ -15,8 +15,8 @@ export const SITE_DESCRIPTION =
 export const SITE_KEYWORDS =
 	'lechonería Cali, lechona tolimense Cali, lechona para eventos Cali, domicilios lechona Cali, lechona 7 de agosto, lechona tradicional, Chancho el Lechón, lechona por raciones Cali';
 
-export const OG_IMAGE_PATH = '/og-image.jpg';
-export const OG_IMAGE_ALT = 'Lechona tolimense recién horneada, Lechonería Chancho el Lechón, Cali';
+export const OG_IMAGE_PATH = '/og/chancho-el-lechon-og.jpg';
+export const OG_IMAGE_ALT = 'Lechonería Chancho el Lechón en Cali: lechona tolimense con cuero súper crocante, pedidos por WhatsApp';
 
 export const BUSINESS_ADDRESS = {
 	street: 'Diagonal 15 #71A-58',

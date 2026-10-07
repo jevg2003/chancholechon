@@ -7,7 +7,7 @@ import sitemap from '@astrojs/sitemap';
 
 // TODO: keep in sync with SITE_URL in src/lib/siteMeta.ts — update both
 // once a custom domain is bought or the Vercel project is renamed.
-const SITE_URL = 'https://pagina-de-la-lechoneria.vercel.app';
+const SITE_URL = 'https://lechoneriachanchoellechon.com';
 
 // https://astro.build/config
 export default defineConfig({

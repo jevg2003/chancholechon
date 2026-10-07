@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://pagina-de-la-lechoneria.vercel.app/sitemap-index.xml
+Sitemap: https://lechoneriachanchoellechon.com/sitemap-index.xml

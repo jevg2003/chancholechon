@@ -6,7 +6,7 @@ import { PHONE_E164, PHONE_DISPLAY } from './contact';
 // TODO: update once a custom domain is bought, or once the Vercel project
 // is renamed to chancholechon (dashboard > Settings > General > Project
 // Name) — must match `site` in astro.config.mjs either way.
-export const SITE_URL = 'https://pagina-de-la-lechoneria.vercel.app';
+export const SITE_URL = 'https://lechoneriachanchoellechon.com';
 
 export const BUSINESS_NAME = 'Lechonería Chancho el Lechón';
 export const SITE_TITLE = `${BUSINESS_NAME} | Restaurante Cali`;

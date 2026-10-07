@@ -6,7 +6,7 @@
 
 **Landing page inmersiva para un restaurante de lechona tradicional en Cali, Colombia.**
 
-[![Sitio en vivo](https://img.shields.io/badge/sitio-en_vivo-brightgreen?style=flat-square)](https://pagina-de-la-lechoneria.vercel.app/)
+[![Sitio en vivo](https://img.shields.io/badge/sitio-en_vivo-brightgreen?style=flat-square)](https://lechoneriachanchoellechon.com/)
 [![Astro](https://img.shields.io/badge/Astro-7-BC52EE?style=flat-square&logo=astro&logoColor=white)](https://astro.build)
 [![React](https://img.shields.io/badge/React-19-61DAFB?style=flat-square&logo=react&logoColor=black)](https://react.dev)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
@@ -14,7 +14,7 @@
 [![Deploy](https://img.shields.io/badge/deploy-Vercel-black?style=flat-square&logo=vercel&logoColor=white)](https://vercel.com)
 [![Licencia MIT](https://img.shields.io/badge/licencia-MIT-blue?style=flat-square)](LICENSE)
 
-[🌐 Ver sitio](https://pagina-de-la-lechoneria.vercel.app/) · [🐛 Reportar un problema](../../issues)
+[🌐 Ver sitio](https://lechoneriachanchoellechon.com/) · [🐛 Reportar un problema](../../issues)
 
 </div>
 

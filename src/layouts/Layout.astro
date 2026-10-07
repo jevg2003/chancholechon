@@ -30,6 +30,11 @@ const websiteSchema = buildWebsiteSchema();
 <html lang="es">
 	<head>
 		<meta charset="UTF-8" />
+		<script is:inline>
+			if (location.hostname === "pagina-de-la-lechoneria.vercel.app") {
+				location.replace("https://lechoneriachanchoellechon.com" + location.pathname + location.search + location.hash);
+			}
+		</script>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta name="generator" content={Astro.generator} />
 

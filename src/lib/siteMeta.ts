@@ -9,11 +9,11 @@ import { PHONE_E164, PHONE_DISPLAY } from './contact';
 export const SITE_URL = 'https://lechoneriachanchoellechon.com';
 
 export const BUSINESS_NAME = 'Lechonería Chancho el Lechón';
-export const SITE_TITLE = `${BUSINESS_NAME} | Restaurante Cali`;
+export const SITE_TITLE = 'Lechona en Cali, barrio 7 de Agosto | Chancho el Lechón';
 export const SITE_DESCRIPTION =
-	'La mejor lechona de Cali: lechona tolimense, cojines, tamales y pernil con cuero súper crocante. Barrio 7 de Agosto — pedidos y cotizaciones por WhatsApp.';
+	'La mejor lechona de Cali: lechona tolimense carnuda con cuero súper crocante, cojines, tamales y pernil. Barrio 7 de Agosto, con domicilios. Pide por WhatsApp.';
 export const SITE_KEYWORDS =
-	'lechonería Cali, lechona tolimense Cali, lechona para eventos Cali, domicilios lechona Cali, lechona 7 de agosto, lechona tradicional, Chancho el Lechón, lechona por raciones Cali';
+	'la mejor lechona de Cali, lechonas Cali, lechona carnuda, lechonería Cali, lechona tolimense Cali, lechona para eventos Cali, domicilios lechona Cali, lechona 7 de agosto, lechona tradicional, Chancho el Lechón, lechona por raciones Cali';
 
 export const OG_IMAGE_PATH = '/og/chancho-el-lechon-og.jpg';
 export const OG_IMAGE_ALT = 'Lechonería Chancho el Lechón en Cali: lechona tolimense con cuero súper crocante, pedidos por WhatsApp';

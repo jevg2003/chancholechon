@@ -39,7 +39,8 @@ export function buildLocalBusinessSchema() {
 			opens: h.opens,
 			closes: h.closes,
 		})),
-		servesCuisine: 'Colombian',
+		servesCuisine: ['Colombian', 'Lechona tolimense'],
+		areaServed: { '@type': 'City', name: 'Cali' },
 		priceRange: '$$',
 		sameAs: SOCIAL_LINKS,
 	};

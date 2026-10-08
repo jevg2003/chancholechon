@@ -81,7 +81,7 @@ npm run preview
 
 ## 📱 Contacto del negocio
 
-Lechonería Chancho el Lechón — Barrio 7 de Agosto, Diagonal 15 #71A-58, Santiago de Cali.
+Lechonería Chancho el Lechón — Barrio 7 de Agosto, Diagonal 15 #71A-56, Santiago de Cali.
 Pedidos y cotizaciones: [WhatsApp](https://wa.me/573128839301) · [Instagram](https://www.instagram.com/chanchoellechon/) · [Facebook](https://www.facebook.com/franciaelena.gonzalez)
 
 ## 📄 Licencia

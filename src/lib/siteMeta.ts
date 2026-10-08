@@ -19,7 +19,7 @@ export const OG_IMAGE_PATH = '/og/chancho-el-lechon-og.jpg';
 export const OG_IMAGE_ALT = 'Lechonería Chancho el Lechón en Cali: lechona tolimense con cuero súper crocante, pedidos por WhatsApp';
 
 export const BUSINESS_ADDRESS = {
-	street: 'Diagonal 15 #71A-58',
+	street: 'Diagonal 15 #71A-56',
 	locality: 'Santiago de Cali',
 	region: 'Valle del Cauca',
 	country: 'CO',

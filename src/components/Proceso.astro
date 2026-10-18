@@ -89,6 +89,7 @@ const tiles = [
 		let zoomScale = 3;
 
 		function setOrigin() {
+			if (!grid || !center) return;
 			const gridRect = grid.getBoundingClientRect();
 			const centerRect = center.getBoundingClientRect();
 			const scale = gsap.getProperty(grid, 'scaleX') as number;

@@ -35,7 +35,7 @@ export const BUSINESS_HOURS = [
 
 export const SOCIAL_LINKS = [
 	'https://www.facebook.com/franciaelena.gonzalez',
-	'https://www.instagram.com/chanchoellechon/',
+	'https://www.instagram.com/chanchoellechon2019/',
 ];
 
 export const BUSINESS_PHONE = PHONE_E164;

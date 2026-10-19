@@ -6,7 +6,7 @@ El backend se incorpora en el PR de FacturacionChancho (`mejora/solicitudes-web`
 
 ## Configuración de compilación en Vercel
 
-Crear una aplicación web pública separada en el mismo proyecto Firebase del administrador. Registrar esa app en App Check con proveedor reCAPTCHA v3 y autorizar el dominio público en la configuración del proveedor.
+Crear una aplicación web pública separada en el mismo proyecto Firebase del administrador. Registrar esa app en App Check con proveedor reCAPTCHA Enterprise (Fraud Defense), con clave web basada en puntuación y autorizar el dominio público en la configuración del proveedor.
 
 Variables públicas (configuración de cliente, no credenciales de administrador):
 

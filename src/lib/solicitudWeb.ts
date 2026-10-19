@@ -16,9 +16,9 @@ export function initSolicitudWeb(form: HTMLFormElement) {
  entrega.addEventListener('change',()=>{ zona.required = entrega.value === 'domicilio'; zona.minLength = zona.required ? 3 : 0; });
  async function appCheck() {
   if(!appCheckPromise) appCheckPromise = (async()=>{
-   const [{initializeApp,getApps},{initializeAppCheck,ReCaptchaV3Provider}] = await Promise.all([import('firebase/app'),import('firebase/app-check')]);
+   const [{initializeApp,getApps},{initializeAppCheck,ReCaptchaEnterpriseProvider}] = await Promise.all([import('firebase/app'),import('firebase/app-check')]);
    const app = getApps().find(a=>a.name==='public-inquiries') ?? initializeApp({apiKey:config.apiKey,projectId:config.projectId,appId:config.appId},'public-inquiries');
-   return initializeAppCheck(app,{provider:new ReCaptchaV3Provider(config.siteKey),isTokenAutoRefreshEnabled:false});
+   return initializeAppCheck(app,{provider:new ReCaptchaEnterpriseProvider(config.siteKey),isTokenAutoRefreshEnabled:false});
   })().catch(error=>{appCheckPromise=null;throw error;});
   return appCheckPromise;
  }

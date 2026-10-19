@@ -81,15 +81,16 @@ import WhatsAppIcon from './icons/WhatsAppIcon.astro';
 
 			// Magnetic button (desktop pointers only): the button leans toward
 			// the cursor inside the zone and springs back elastically on leave.
+			let cleanupMagnet: (() => void) | undefined;
 			if (!reduceMotion && canHover) {
-				initMagneticButton(
+				cleanupMagnet = initMagneticButton(
 					document.querySelector<HTMLElement>('.cta-magnet-zone')!,
 					document.querySelector<HTMLElement>('.cta-magnet-btn')!,
 					document.querySelector<HTMLElement>('.cta-magnet-label')
 				);
 			}
 
-			return () => {};
+			return () => cleanupMagnet?.();
 		}
 	);
 </script>

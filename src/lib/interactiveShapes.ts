@@ -106,7 +106,7 @@ export function initInteractiveShapes(): () => void {
 		panels.get(panel)!.push(wander);
 
 		// Idle morph: cycle through visibly different silhouettes.
-		if (shape.classList.contains('somos-morph')) {
+		if (canDrag && shape.classList.contains('somos-morph')) {
 			gsap.set(shape, { clipPath: MORPH_POLYGONS[0] });
 			const order = gsap.utils.shuffle([...MORPH_POLYGONS.slice(1), MORPH_POLYGONS[0]]);
 			const morph = gsap.timeline({ repeat: -1 });

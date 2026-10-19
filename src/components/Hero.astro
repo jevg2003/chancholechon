@@ -145,8 +145,9 @@ import HeroCutoutStack from './HeroCutoutStack.astro';
 			const cleanupAmbient = initHeroAmbientMotion((offscreen) => carousel.setOffscreen(offscreen));
 
 			// Same magnetic pull as the closing CTA's WhatsApp button.
+			let cleanupMagnet: (() => void) | undefined;
 			if (canHover) {
-				initMagneticButton(
+				cleanupMagnet = initMagneticButton(
 					document.querySelector<HTMLElement>('.hero-cta-zone')!,
 					document.querySelector<HTMLElement>('.hero-cta-btn')!,
 					document.querySelector<HTMLElement>('.hero-cta-label')
@@ -159,7 +160,7 @@ import HeroCutoutStack from './HeroCutoutStack.astro';
 			// consecutive scroll-jacked pins on small screens.
 			if (!isMobile) initExitTransition();
 
-			return () => { cleanupAmbient(); carousel.destroy(); };
+			return () => { cleanupMagnet?.(); cleanupAmbient(); carousel.destroy(); };
 		}
 	);
 

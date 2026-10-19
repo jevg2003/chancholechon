@@ -23,11 +23,15 @@ export class HeroCarousel {
 	private manuallyPaused = false;
 	private hoverPaused = false;
 	private offscreen = false;
+	private rotationDuration = 0.8;
+	private rotationEase = 'power2.inOut';
+	private onVisibility = () => this.syncRotation();
 
 	constructor() {
 		this.wireToggleButton();
 		this.wireSwipe();
 		this.wireHoverPause();
+		document.addEventListener('visibilitychange', this.onVisibility);
 	}
 
 	private get isPaused() {
@@ -36,6 +40,7 @@ export class HeroCarousel {
 
 	setOffscreen(offscreen: boolean) {
 		this.offscreen = offscreen;
+		this.syncRotation();
 	}
 
 	/** Snap or tween every cutout into its slot relative to `active`. */
@@ -64,18 +69,25 @@ export class HeroCarousel {
 
 	startRotation(duration: number, ease: string) {
 		this.rotationTimer?.kill();
+		this.rotationDuration = duration;
+		this.rotationEase = ease;
 		this.layout(this.currentIndex, 0, 'none');
-		this.rotationTimer = gsap.to(
-			{},
-			{
-				duration: ROTATION_INTERVAL,
-				repeat: -1,
-				onRepeat: () => {
-					if (this.isPaused || this.cutouts.length < 2) return;
-					this.layout((this.currentIndex + 1) % this.cutouts.length, duration, ease);
-				},
+		this.scheduleRotation();
+	}
+
+	private scheduleRotation() {
+		// A sleeping delayed call replaces the perpetual per-frame timer.
+		this.rotationTimer = gsap.delayedCall(ROTATION_INTERVAL, () => {
+			if (!this.isPaused && this.cutouts.length > 1) {
+				this.layout((this.currentIndex + 1) % this.cutouts.length, this.rotationDuration, this.rotationEase);
 			}
-		);
+			this.scheduleRotation();
+		});
+		this.syncRotation();
+	}
+
+	private syncRotation() {
+		this.rotationTimer?.paused(this.isPaused);
 	}
 
 	destroy() {
@@ -89,6 +101,7 @@ export class HeroCarousel {
 
 		toggleBtn?.addEventListener('click', () => {
 			this.manuallyPaused = !this.manuallyPaused;
+			this.syncRotation();
 			toggleBtn.setAttribute('aria-pressed', String(this.manuallyPaused));
 			toggleBtn.setAttribute(
 				'aria-label',
@@ -125,14 +138,15 @@ export class HeroCarousel {
 			this.layout(next, reduce ? 0.15 : 0.6, reduce ? 'none' : 'power2.out');
 			// Restart the auto-rotation clock so the manual pick gets full stage time.
 			this.rotationTimer?.restart(true);
+			this.syncRotation();
 		});
 	}
 
 	private wireHoverPause() {
 		const pedestalWrap = document.querySelector('.hero-pedestal-wrap');
-		pedestalWrap?.addEventListener('mouseenter', () => (this.hoverPaused = true));
-		pedestalWrap?.addEventListener('mouseleave', () => (this.hoverPaused = false));
-		pedestalWrap?.addEventListener('focusin', () => (this.hoverPaused = true));
-		pedestalWrap?.addEventListener('focusout', () => (this.hoverPaused = false));
+		pedestalWrap?.addEventListener('mouseenter', () => { this.hoverPaused = true; this.syncRotation(); });
+		pedestalWrap?.addEventListener('mouseleave', () => { this.hoverPaused = false; this.syncRotation(); });
+		pedestalWrap?.addEventListener('focusin', () => { this.hoverPaused = true; this.syncRotation(); });
+		pedestalWrap?.addEventListener('focusout', () => { this.hoverPaused = false; this.syncRotation(); });
 	}
 }

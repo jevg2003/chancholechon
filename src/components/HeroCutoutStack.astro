@@ -22,7 +22,7 @@ import { heroCutouts } from '../data/heroCutouts';
 					data-cutout-index={i}
 					data-zoom={img.zoom}
 					widths={[400, 640, 900]}
-					sizes="(min-width: 1024px) 608px, 480px"
+					sizes="(min-width: 1024px) 608px, (min-width: 640px) 480px, 320px"
 					format="webp"
 					loading={i === 0 ? 'eager' : 'lazy'}
 					decoding="async"

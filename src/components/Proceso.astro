@@ -1,4 +1,8 @@
 ---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+const photos = import.meta.glob<{ default: ImageMetadata }>('../../public/media/img/*', { eager: true });
 const tiles = [
 	{ src: '/media/img/img1.webp', alt: 'Lechona entera con cuero crocante', class: 'col-span-2' },
 	{ src: '/media/img/img2.webp', alt: 'Preparación de lechona', class: '' },
@@ -14,12 +18,23 @@ const tiles = [
 ---
 
 <section id="proceso" class="proceso-section relative overflow-hidden bg-brand-900 text-cream-50">
-	<div class="proceso-pin relative h-screen overflow-hidden">
-		<div class="proceso-grid grid h-full w-full grid-cols-4 grid-rows-3 gap-3 p-3 will-change-transform">
+	<div class="proceso-gallery relative h-[70svh] min-h-[28rem] overflow-hidden md:h-screen">
+		<div class="proceso-grid grid h-full w-full grid-cols-4 grid-rows-3 gap-3 p-3">
 			{
 				tiles.map((tile) => (
 					<figure class={`proceso-tile relative overflow-hidden rounded-2xl ${tile.class}`}>
-						<img src={tile.src} alt={tile.alt} loading="lazy" class="h-full w-full object-cover" />
+						<Image
+							src={photos[`../../public${tile.src}`].default}
+							alt={tile.alt}
+							width={960}
+							widths={[400, 640, 960]}
+							sizes="(min-width: 768px) 640px, 320px"
+							format="webp"
+							quality={80}
+							loading="lazy"
+							decoding="async"
+							class="h-full w-full object-cover"
+						/>
 					</figure>
 				))
 			}
@@ -39,127 +54,23 @@ const tiles = [
 <script>
 	import gsap from 'gsap';
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
-	import { ExpoScaleEase } from 'gsap/EasePack';
 
-	gsap.registerPlugin(ScrollTrigger, ExpoScaleEase);
-
-	// Mobile browsers show/hide the URL bar while scrolling, firing resizes
-	// that refresh ScrollTrigger mid-pin and make the zoom stutter/jump.
-	ScrollTrigger.config({ ignoreMobileResize: true });
-
-	// On touch devices, route scrolling through GSAP so momentum flings and
-	// address-bar quirks can't desync the pinned zoom on fast scrolls.
-	if (window.matchMedia('(hover: none), (pointer: coarse)').matches) {
-		ScrollTrigger.normalizeScroll(true);
-	}
-
+	gsap.registerPlugin(ScrollTrigger);
 	const mm = gsap.matchMedia();
-
-	mm.add(
-		{
-			reduceMotion: '(prefers-reduced-motion: reduce)',
-			okMotion: '(prefers-reduced-motion: no-preference)',
-			isMobile: '(max-width: 767px)',
-			isDesktop: '(min-width: 768px)',
-		},
-		(context) => {
-		const { reduceMotion, isMobile } = context.conditions as { reduceMotion: boolean; isMobile: boolean };
-
-		const grid = document.querySelector<HTMLElement>('.proceso-grid');
-		const center = document.querySelector<HTMLElement>('.proceso-tile-center');
-		if (!grid || !center) return () => {};
-
-		if (reduceMotion) {
-			gsap.set('.proceso-caption', { autoAlpha: 0 });
-			gsap.to('.proceso-caption', {
-				autoAlpha: 1,
-				duration: 0.2,
-				scrollTrigger: { trigger: '.proceso-section', start: 'top 40%', toggleActions: 'play none none reverse' },
-			});
-			return () => {};
-		}
-
-		// Zoom origin = the center tile's midpoint, in PERCENT of the grid so
-		// it stays correct when the viewport resizes (mobile URL bar, rotation)
-		// — pixel origins went stale on refresh and left the grid off-screen.
-		// Focus point inside the center tile: horizontally centered, slightly
-		// above the midpoint so the framing favors the top of the photo.
-		const FX = 0.5;
-		const FY = 0.38;
-		let zoomScale = 3;
-
-		function setOrigin() {
-			if (!grid || !center) return;
-			const gridRect = grid.getBoundingClientRect();
-			const centerRect = center.getBoundingClientRect();
-			const scale = gsap.getProperty(grid, 'scaleX') as number;
-			if (scale !== 1) return;
-			const gx = centerRect.left - gridRect.left + centerRect.width * FX;
-			const gy = centerRect.top - gridRect.top + centerRect.height * FY;
-			gsap.set(grid, { transformOrigin: `${(gx / gridRect.width) * 100}% ${(gy / gridRect.height) * 100}%` });
-			// Minimum scale so the tile covers the whole viewport around that
-			// focus point — less shows the blue grid gaps, more over-magnifies
-			// the photo (and huge scales exceed mobile GPU texture limits).
-			zoomScale =
-				Math.max(
-					gx / (centerRect.width * FX),
-					(gridRect.width - gx) / (centerRect.width * (1 - FX)),
-					gy / (centerRect.height * FY),
-					(gridRect.height - gy) / (centerRect.height * (1 - FY))
-				) * 1.03;
-		}
-		setOrigin();
-		ScrollTrigger.addEventListener('refreshInit', setOrigin);
-
-		const END = isMobile ? '+=1900' : '+=3200';
-		// Direct 1:1 scrub on touch: any catch-up lag builds a backlog during
-		// fast flings and reads as the zoom "freezing" then jumping.
-		const SCRUB = isMobile ? true : 1;
-
-		gsap.set('.proceso-caption', { autoAlpha: 0, y: 30 });
-
-		const tl = gsap.timeline({
+	mm.add('(prefers-reduced-motion: no-preference)', () => {
+		// Keep the photo mosaic, without pinning the page or scaling ten
+		// images into a viewport-sized GPU surface on every scroll frame.
+		gsap.from('.proceso-tile', {
+			autoAlpha: 0,
+			y: 18,
+			duration: 0.45,
+			stagger: 0.035,
+			ease: 'power2.out',
 			scrollTrigger: {
-				trigger: '.proceso-section',
-				start: 'top top',
-				end: END,
-				pin: '.proceso-pin',
-				scrub: SCRUB,
-				anticipatePin: 1,
-				fastScrollEnd: true,
-				invalidateOnRefresh: true,
+				trigger: '#proceso',
+				start: 'top 85%',
+				once: true,
 			},
 		});
-
-		// Zoom takes most of the pin, then a dwell holds the framed shot so the
-		// section doesn't release abruptly right as the zoom finishes.
-		tl.to(grid, { scale: () => zoomScale, duration: 1, ease: ExpoScaleEase.config(1, zoomScale) }, 0)
-			.to('.proceso-caption', { autoAlpha: 1, y: 0, duration: 0.15, ease: 'none' }, 0.85)
-			.to({}, { duration: 0.12 });
-
-		const arrowTween = gsap.to('.proceso-caption-arrow', {
-			y: 8,
-			duration: 0.7,
-			yoyo: true,
-			repeat: -1,
-			ease: 'sine.inOut',
-		});
-
-		// Pause the arrow loop while the section is offscreen.
-		ScrollTrigger.create({
-			trigger: '.proceso-section',
-			start: 'top bottom',
-			end: 'bottom top',
-			onToggle: (self) => (self.isActive ? arrowTween.play() : arrowTween.pause()),
-		});
-
-		// Cleanup on breakpoint flip: drop the stale refreshInit listener and
-		// leftover inline transforms so the rebuilt pin starts clean.
-		return () => {
-			ScrollTrigger.removeEventListener('refreshInit', setOrigin);
-			gsap.set(grid, { clearProps: 'all' });
-			gsap.set('.proceso-caption', { clearProps: 'all' });
-		};
-		}
-	);
+	});
 </script>

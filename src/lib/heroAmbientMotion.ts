@@ -1,9 +1,8 @@
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Draggable } from 'gsap/Draggable';
 import { InertiaPlugin } from 'gsap/InertiaPlugin';
 
-gsap.registerPlugin(ScrollTrigger, Draggable, InertiaPlugin);
+gsap.registerPlugin(Draggable, InertiaPlugin);
 
 /**
  * Ambient hero motion: the floating/draggable "Desde 2019" badge, drifting
@@ -29,7 +28,7 @@ export function initHeroAmbientMotion(onOffscreenChange: (offscreen: boolean) =>
 
 	// The badge is a toy: grab it, throw it around the hero, and it lands
 	// with a springy bounce.
-	Draggable.create('.hero-badge', {
+	const draggables = Draggable.create('.hero-badge', {
 		type: 'x,y',
 		bounds: '.hero-section',
 		inertia: true,
@@ -77,15 +76,24 @@ export function initHeroAmbientMotion(onOffscreenChange: (offscreen: boolean) =>
 		})
 	);
 
-	// Pause everything the moment the hero leaves the viewport so the
-	// browser isn't animating things nobody can see.
-	ScrollTrigger.create({
-		trigger: '#hero',
-		start: 'top bottom',
-		end: 'bottom top',
-		onToggle: (self) => {
-			onOffscreenChange(!self.isActive);
-			ambient.forEach((t) => (self.isActive ? t.play() : t.pause()));
-		},
+	let onscreen = false;
+	const sync = () => {
+		const active = onscreen && !document.hidden;
+		onOffscreenChange(!active);
+		ambient.forEach((t) => t.paused(!active));
+	};
+	const observer = new IntersectionObserver(([entry]) => {
+		onscreen = entry.isIntersecting;
+		sync();
 	});
+	const hero = document.getElementById('hero');
+	if (hero) observer.observe(hero);
+	document.addEventListener('visibilitychange', sync);
+	sync();
+	return () => {
+		observer.disconnect();
+		document.removeEventListener('visibilitychange', sync);
+		draggables.forEach((d) => d.kill());
+		ambient.forEach((t) => t.kill());
+	};
 }

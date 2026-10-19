@@ -132,7 +132,7 @@ import somosImg from '../assets/images/lechona-entera-horneada.png';
 <script>
 	import gsap from 'gsap';
 	import { ScrollTrigger } from 'gsap/ScrollTrigger';
-	import { initSomosHorizontalScroll, initSomosVerticalReveal, SOMOS_PIN_DISTANCE } from '../lib/horizontalPinScroll';
+	import { initSomosHorizontalScroll, initSomosVerticalReveal } from '../lib/horizontalPinScroll';
 	import { initInteractiveShapes } from '../lib/interactiveShapes';
 
 	gsap.registerPlugin(ScrollTrigger);
@@ -165,10 +165,7 @@ import somosImg from '../assets/images/lechona-entera-horneada.png';
 			// Cleanup when the breakpoint flips (mobile <-> desktop): kill
 			// draggables/triggers and wipe leftover inline transforms so the
 			// other mode starts from a clean layout instead of a stuck one.
-			const cleanupShapes = initInteractiveShapes({
-				sectionSelector: '.somos-historia',
-				pinDistance: isDesktop ? SOMOS_PIN_DISTANCE : 0,
-			});
+			const cleanupShapes = initInteractiveShapes();
 
 			return () => {
 				cleanupShapes();

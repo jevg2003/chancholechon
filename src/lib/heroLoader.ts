@@ -2,7 +2,7 @@ import gsap from 'gsap';
 
 /**
  * Page loader that covers the hero until assets are ready, so half-loaded
- * carousel photos never flash stacked in the middle. Falls back after 3.5s
+ * carousel photos never flash stacked in the middle. Falls back after 1.5s
  * in case the `load` event is slow to fire (flaky connections).
  *
  * Returns `whenReady`, used to defer the hero's entrance timeline so it
@@ -44,12 +44,14 @@ export function initHeroLoader() {
 		readyCallbacks.forEach((cb) => cb());
 	}
 
-	if (document.readyState === 'complete') {
+	// Only the first visible hero assets gate the reveal, not unrelated
+	// images, fonts or the map farther down the page.
+	const heroImages = Array.from(document.querySelectorAll<HTMLImageElement>('.hero-logo, .hero-cutout[data-cutout-index="0"]'));
+	const fallback = window.setTimeout(finishLoading, 1500);
+	Promise.all(heroImages.map((img) => img.decode().catch(() => {}))).then(() => {
+		window.clearTimeout(fallback);
 		finishLoading();
-	} else {
-		window.addEventListener('load', finishLoading);
-		setTimeout(finishLoading, 3500);
-	}
+	});
 
 	return {
 		whenReady(cb: () => void) {

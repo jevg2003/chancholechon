@@ -142,7 +142,7 @@ import HeroCutoutStack from './HeroCutoutStack.astro';
 
 			playEntranceTimeline();
 			carousel.startRotation(0.8, 'power2.inOut');
-			initHeroAmbientMotion((offscreen) => carousel.setOffscreen(offscreen));
+			const cleanupAmbient = initHeroAmbientMotion((offscreen) => carousel.setOffscreen(offscreen));
 
 			// Same magnetic pull as the closing CTA's WhatsApp button.
 			if (canHover) {
@@ -159,7 +159,7 @@ import HeroCutoutStack from './HeroCutoutStack.astro';
 			// consecutive scroll-jacked pins on small screens.
 			if (!isMobile) initExitTransition();
 
-			return () => carousel.destroy();
+			return () => { cleanupAmbient(); carousel.destroy(); };
 		}
 	);
 

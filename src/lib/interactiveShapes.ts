@@ -1,9 +1,8 @@
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Draggable } from 'gsap/Draggable';
 import { InertiaPlugin } from 'gsap/InertiaPlugin';
 
-gsap.registerPlugin(ScrollTrigger, Draggable, InertiaPlugin);
+gsap.registerPlugin(Draggable, InertiaPlugin);
 
 // 8-point polygons (same vertex count) so clip-path morphs smoothly between
 // clearly different silhouettes.
@@ -15,25 +14,18 @@ const MORPH_POLYGONS = [
 	'polygon(50% 0%, 75% 25%, 100% 50%, 75% 75%, 50% 100%, 25% 75%, 0% 50%, 25% 25%)', // rhombus
 ];
 
-interface InteractiveShapesOptions {
-	/** ScrollTrigger start/end reference — usually the pinned section. */
-	sectionSelector: string;
-	/** Extra scroll distance the section holds the viewport for (its pin
-	 * distance), so the offscreen-pause trigger's end accounts for it. */
-	pinDistance: number;
-}
-
 /**
  * Playful physics for decorative shapes (Somos' Misión/Visión panels): drag
  * & fling them (Draggable + inertia), they spin on release, get expelled if
  * they land over the text, knock into each other, and wander/morph on their
  * own when idle. Returns a cleanup function that kills everything created.
  */
-export function initInteractiveShapes(options: InteractiveShapesOptions): () => void {
+export function initInteractiveShapes(): () => void {
 	const idleTweens: gsap.core.Animation[] = [];
 	const allShapes = gsap.utils.toArray<HTMLElement>('.somos-shape');
 	const wanderOf = new Map<HTMLElement, gsap.core.Tween>();
 	const draggables: Draggable[] = [];
+	const panels = new Map<Element, gsap.core.Animation[]>();
 
 	// Dragging is desktop-pointer only: on touch screens a draggable shape
 	// (touch-action: none) would swallow scroll gestures.
@@ -94,6 +86,7 @@ export function initInteractiveShapes(options: InteractiveShapesOptions): () => 
 			shape.style.touchAction = 'none';
 		}
 		const panel = shape.closest<HTMLElement>('.somos-panel')!;
+		if (!panels.has(panel)) panels.set(panel, []);
 
 		// Idle wander: small random strolls, re-rolled on every repeat.
 		const wander = gsap.to(shape, {
@@ -110,9 +103,10 @@ export function initInteractiveShapes(options: InteractiveShapesOptions): () => 
 		});
 		wanderOf.set(shape, wander);
 		idleTweens.push(wander);
+		panels.get(panel)!.push(wander);
 
 		// Idle morph: cycle through visibly different silhouettes.
-		if (shape.classList.contains('somos-morph')) {
+		if (canDrag && shape.classList.contains('somos-morph')) {
 			gsap.set(shape, { clipPath: MORPH_POLYGONS[0] });
 			const order = gsap.utils.shuffle([...MORPH_POLYGONS.slice(1), MORPH_POLYGONS[0]]);
 			const morph = gsap.timeline({ repeat: -1 });
@@ -120,6 +114,7 @@ export function initInteractiveShapes(options: InteractiveShapesOptions): () => 
 				morph.to(shape, { clipPath: poly, duration: gsap.utils.random(1.6, 2.6), ease: 'sine.inOut' });
 			});
 			idleTweens.push(morph);
+			panels.get(panel)!.push(morph);
 		}
 
 		if (!canDrag) return;
@@ -165,25 +160,25 @@ export function initInteractiveShapes(options: InteractiveShapesOptions): () => 
 
 	allShapes.forEach(setupShape);
 
-	// Pause the idle loops while the section is offscreen. The end must
-	// account for the pin distance — with a plain 'bottom top' end, landing
-	// mid-pin (e.g. reload) read as "already past it" and left the tweens
-	// stuck paused. onRefresh re-syncs state.
-	const syncIdle = (self: ScrollTrigger) => idleTweens.forEach((t) => (self.isActive ? t.play() : t.pause()));
-	const pauseTrigger = ScrollTrigger.create({
-		trigger: options.sectionSelector,
-		start: 'top bottom',
-		end: () => {
-			const section = document.querySelector<HTMLElement>(options.sectionSelector)!;
-			return `+=${section.offsetHeight + window.innerHeight + options.pinDistance}`;
-		},
-		onToggle: syncIdle,
-		onRefresh: syncIdle,
+	// Observe each panel, including horizontal transforms. Previously every
+	// panel's wander and clip-path morph ran throughout the whole section.
+	const visible = new Set<Element>();
+	idleTweens.forEach((t) => t.pause());
+	const syncIdle = () => panels.forEach((tweens, panel) => {
+		tweens.forEach((t) => t.paused(document.hidden || !visible.has(panel)));
 	});
+	const observer = new IntersectionObserver((entries) => {
+		entries.forEach((entry) => entry.isIntersecting ? visible.add(entry.target) : visible.delete(entry.target));
+		syncIdle();
+	});
+	panels.forEach((_, panel) => observer.observe(panel));
+	document.addEventListener('visibilitychange', syncIdle);
 
 	return () => {
 		draggables.forEach((d) => d.kill());
-		pauseTrigger.kill();
+		observer.disconnect();
+		document.removeEventListener('visibilitychange', syncIdle);
+		idleTweens.forEach((t) => t.kill());
 		gsap.set(allShapes, { clearProps: 'all' });
 	};
 }

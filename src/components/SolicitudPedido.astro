@@ -1,0 +1,48 @@
+---
+import { products } from '../data/products';
+import { WHATSAPP_URL } from '../lib/contact';
+const config = {
+ apiKey: import.meta.env.PUBLIC_SOLICITUDES_FIREBASE_API_KEY ?? '',
+ projectId: import.meta.env.PUBLIC_SOLICITUDES_FIREBASE_PROJECT_ID ?? '',
+ appId: import.meta.env.PUBLIC_SOLICITUDES_FIREBASE_APP_ID ?? '',
+ siteKey: import.meta.env.PUBLIC_SOLICITUDES_RECAPTCHA_SITE_KEY ?? '',
+ endpoint: import.meta.env.PUBLIC_SOLICITUDES_ENDPOINT ?? '',
+};
+const ready = Object.values(config).every(Boolean);
+---
+<section id="solicitar-pedido" class="solicitud-section bg-brand-900 py-16 text-cream-50 sm:py-24">
+ <div class="solicitud-layout mx-auto max-w-6xl px-4 sm:px-8">
+  <div class="solicitud-intro"><p class="text-sm font-bold uppercase tracking-widest text-gold-400">Tu celebración empieza aquí</p><h2 class="mt-4 text-3xl font-extrabold leading-tight sm:text-4xl">Cuéntanos tu pedido.<br /><span class="text-gold-400">Pongámosle sabor.</span></h2><p class="mt-5 leading-relaxed text-cream-50/80">¿Una reunión familiar, un evento o un pedido de cajas? Déjanos tu solicitud y revisaremos contigo las opciones, el precio y la disponibilidad.</p>
+   <ol class="solicitud-pasos mt-8 space-y-5"><li><strong>01 · Completa los datos</strong><p>Elige la presentación, cantidad y fecha que necesitas.</p></li><li><strong>02 · Recibe tu referencia</strong><p>Tu solicitud queda pendiente de cotizar.</p></li><li><strong>03 · Confirma con nosotros</strong><p>Acordamos precio, disponibilidad y entrega antes de reservar.</p></li></ol>
+   <p class="mt-8 text-sm text-cream-50/80">¿Prefieres conversar directamente? <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" class="font-bold text-gold-400 underline underline-offset-4">Escríbenos por WhatsApp</a>.</p>
+  </div>
+  <form id="solicitud-web" data-config={JSON.stringify(config)} data-ready={String(ready)} class="solicitud-form rounded-3xl bg-cream-50 p-5 text-brand-900 shadow-2xl sm:p-8">
+   <h3 class="text-xl font-extrabold sm:text-2xl">Solicitud de cotización</h3><p class="mt-2 text-sm leading-relaxed text-brand-900/70">Sin pagos en esta página. Enviar no confirma una reserva.</p>
+   {!ready && <p class="mt-4 rounded-xl bg-gold-400/30 p-3 text-sm">Por ahora recibimos solicitudes por <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" class="font-bold underline">WhatsApp</a>. El envío directo estará disponible próximamente.</p>}
+   <fieldset class="mt-5 space-y-4" disabled={!ready}>
+    <div class="solicitud-pair"><div><label for="sol-nombre">Tu nombre</label><input id="sol-nombre" name="nombre" autocomplete="name" minlength="2" maxlength="100" required /></div><div><label for="sol-telefono">Celular o WhatsApp</label><input id="sol-telefono" name="telefono" type="tel" autocomplete="tel" inputmode="tel" minlength="7" maxlength="25" placeholder="Ej. 312 000 0000" required /></div></div>
+    <div><label for="sol-producto">¿Qué te gustaría pedir?</label><select id="sol-producto" name="producto" required><option value="">Elige una presentación</option>{products.map(product=><option value={product.id}>{product.name}</option>)}</select></div>
+    <div><label for="sol-cantidad">Cantidad de porciones o unidades</label><input id="sol-cantidad" name="cantidad" type="number" min="1" max="10000" step="1" inputmode="numeric" placeholder="Ej. 30" required /><p class="sol-ayuda">Para cojines y lechonas, indica porciones; para cajas y tamales, unidades. Para pernil o lomo, aclara la presentación en observaciones.</p></div>
+    <div class="solicitud-pair"><div><label for="sol-fecha">Fecha que necesitas</label><input id="sol-fecha" name="fecha" type="date" required /></div><div><label for="sol-hora">Hora preferida <span>(opcional)</span></label><input id="sol-hora" name="hora" type="time" /></div></div>
+    <div><label for="sol-entrega">Forma de entrega</label><select id="sol-entrega" name="entrega" required><option value="recoger">Recoger en el local</option><option value="domicilio">Consultar domicilio</option></select></div>
+    <div><label for="sol-zona">Barrio o municipio <span class="zona-opcional">(opcional si recoges)</span></label><input id="sol-zona" name="zona" maxlength="150" placeholder="Ej. Siete de Agosto, Cali" /><p class="sol-ayuda">No necesitas compartir tu dirección exacta todavía.</p></div>
+    <div><label for="sol-notas">¿Qué más debemos saber? <span>(opcional)</span></label><textarea id="sol-notas" name="notas" rows="3" maxlength="700" placeholder="Tipo de evento, presentación o alguna indicación"></textarea></div>
+    <div class="sol-trampa" aria-hidden="true"><label for="sol-website">Deja este campo vacío</label><input id="sol-website" name="website" tabindex="-1" autocomplete="off" /></div>
+    <label class="sol-consentimiento" for="sol-consentimiento"><input id="sol-consentimiento" name="consentimiento" type="checkbox" required /><span>Autorizo el uso de mi nombre, celular y datos de la solicitud para que Chancho el Lechón me contacte y gestione esta cotización, según la <a href="/politica-de-privacidad" target="_blank" rel="noopener noreferrer" class="underline">política de privacidad</a>.</span></label>
+    <button type="submit" class="sol-submit inline-flex w-full items-center justify-center rounded-full bg-gold-500 px-6 py-4 font-extrabold text-brand-900 hover:bg-gold-600">Enviar solicitud</button>
+   </fieldset>
+   <p id="sol-estado" role="status" aria-live="polite" tabindex="-1" class="mt-4 whitespace-pre-line text-sm leading-relaxed"></p>
+   <noscript><p class="mt-4 text-sm">Para solicitar sin JavaScript, <a href={WHATSAPP_URL} class="underline">escríbenos por WhatsApp</a>.</p></noscript>
+  </form>
+ </div>
+</section>
+<style>
+ .solicitud-layout{display:grid;grid-template-columns:1fr 1.2fr;gap:64px;align-items:start}.solicitud-intro{position:sticky;top:36px}.solicitud-pasos p{margin-top:6px;font-size:14px;line-height:1.6;color:var(--color-brand-100)}.solicitud-pasos strong{color:var(--color-gold-500);font-size:15px}.solicitud-pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px}.solicitud-form{min-width:0}.solicitud-form label{display:block;font-size:13px;font-weight:700;line-height:1.5;margin-bottom:7px}.solicitud-form label span:not(.zona-opcional){font-weight:400}.solicitud-form input:not([type=checkbox]),.solicitud-form select,.solicitud-form textarea{display:block;box-sizing:border-box;min-width:0;width:100%;min-height:48px;border:1px solid var(--color-brand-200);border-radius:10px;background:white;padding:11px 12px;color:var(--color-brand-900);font-size:16px;line-height:1.5}.solicitud-form :is(input,select,textarea,button,a):focus-visible{outline:3px solid var(--color-brand-600);outline-offset:3px}.sol-ayuda{font-size:11px;line-height:1.6;margin-top:6px;color:var(--color-brand-800)}.solicitud-form .sol-consentimiento{display:flex;align-items:flex-start;gap:10px;font-size:12px;font-weight:400}.sol-consentimiento input{margin-top:3px;flex-shrink:0;width:20px;height:20px;accent-color:var(--color-brand-600)}.sol-trampa{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}fieldset:disabled{opacity:.6}fieldset{min-width:0}.sol-submit{min-height:52px;cursor:pointer}.solicitud-form[aria-busy=true] .sol-submit{cursor:wait}.solicitud-form:focus-within{box-shadow:0 18px 50px #0003}
+ @media(max-width:900px){.solicitud-layout{grid-template-columns:1fr;gap:32px}.solicitud-intro{position:static}.solicitud-intro>p{max-width:650px}.solicitud-pasos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}.solicitud-pasos li{margin-top:0}}
+ @media(max-width:540px){.solicitud-pair{grid-template-columns:1fr}.solicitud-pasos{display:block}.solicitud-pasos li+li{margin-top:16px}.solicitud-form{padding:22px 18px}.solicitud-form :is(input,select,textarea){max-width:100%}}
+</style>
+<script>
+ import { initSolicitudWeb } from '../lib/solicitudWeb';
+ const form = document.querySelector<HTMLFormElement>('#solicitud-web');
+ if (form?.dataset.ready === 'true') initSolicitudWeb(form);
+</script>

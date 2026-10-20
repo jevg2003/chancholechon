@@ -22,23 +22,22 @@ export function initMagneticButton(
 ) {
 	const { btnStrength = 0.45, labelStrength = 0.18 } = options;
 
+	const events = new AbortController();
+	const moveX = gsap.quickTo(btn, 'x', { duration: 0.4, ease: 'power2.out' });
+	const moveY = gsap.quickTo(btn, 'y', { duration: 0.4, ease: 'power2.out' });
+	const labelX = label ? gsap.quickTo(label, 'x', { duration: 0.5, ease: 'power2.out' }) : null;
+	const labelY = label ? gsap.quickTo(label, 'y', { duration: 0.5, ease: 'power2.out' }) : null;
 	zone.addEventListener('mousemove', (e) => {
 		const r = zone.getBoundingClientRect();
 		const relX = e.clientX - r.left - r.width / 2;
 		const relY = e.clientY - r.top - r.height / 2;
-		gsap.to(btn, { x: relX * btnStrength, y: relY * btnStrength, duration: 0.4, ease: 'power2.out', overwrite: 'auto' });
-		if (label) {
-			gsap.to(label, {
-				x: relX * labelStrength,
-				y: relY * labelStrength,
-				duration: 0.5,
-				ease: 'power2.out',
-				overwrite: 'auto',
-			});
-		}
-	});
-
+		moveX(relX * btnStrength);
+		moveY(relY * btnStrength);
+		labelX?.(relX * labelStrength);
+		labelY?.(relY * labelStrength);
+	}, { signal: events.signal });
 	zone.addEventListener('mouseleave', () => {
 		gsap.to([btn, label].filter(Boolean), { x: 0, y: 0, duration: 1, ease: 'elastic.out(1, 0.35)', overwrite: 'auto' });
-	});
+	}, { signal: events.signal });
+	return () => events.abort();
 }

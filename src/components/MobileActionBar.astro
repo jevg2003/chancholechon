@@ -1,0 +1,85 @@
+---
+import { PHONE_TEL_HREF, WHATSAPP_URL } from '../lib/contact';
+import { MAPS_URL } from '../lib/siteMeta';
+import WhatsAppIcon from './icons/WhatsAppIcon.astro';
+---
+
+<!--
+	Barra de acciones fija en celular: las tres cosas que la gente busca al
+	entrar desde el teléfono (pedir, llamar, llegar), siempre a un toque.
+	Solo CSS; se oculta en pantallas medianas, donde queda el botón flotante.
+-->
+<nav
+	class="mobile-bar fixed inset-x-0 bottom-0 z-50 border-t border-brand-900/10 bg-cream-50/95 px-3 pt-2 shadow-[0_-8px_24px_-12px_rgb(0_41_95/0.35)] backdrop-blur-md md:hidden"
+	aria-label="Acciones rápidas"
+>
+	<ul class="mx-auto grid max-w-md grid-cols-[1fr_1.9fr_1fr] items-stretch gap-2">
+		<li>
+			<a href={PHONE_TEL_HREF} class="mobile-bar-btn text-brand-800">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-5" aria-hidden="true">
+					<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.1 9.9a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.58 2.81.7A2 2 0 0 1 22 16.92z" />
+				</svg>
+				<span>Llamar</span>
+			</a>
+		</li>
+		<li>
+			<a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" class="mobile-bar-btn mobile-bar-primary">
+				<WhatsAppIcon class="size-5" />
+				<span>Pedir por WhatsApp</span>
+			</a>
+		</li>
+		<li>
+			<a href={MAPS_URL} target="_blank" rel="noopener noreferrer" class="mobile-bar-btn text-brand-800">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-5" aria-hidden="true">
+					<path d="M12 22s-8-5.6-8-12a8 8 0 0 1 16 0c0 6.4-8 12-8 12z" />
+					<circle cx="12" cy="10" r="3" />
+				</svg>
+				<span>Cómo llegar</span>
+			</a>
+		</li>
+	</ul>
+</nav>
+
+<style>
+	.mobile-bar {
+		padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+	}
+	.mobile-bar-btn {
+		display: flex;
+		min-height: 3.25rem;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 0.15rem;
+		border-radius: 1rem;
+		font-size: 0.75rem;
+		font-weight: 700;
+		line-height: 1.1;
+		text-align: center;
+		-webkit-tap-highlight-color: transparent;
+		transition:
+			background-color 0.15s ease,
+			scale 0.15s ease;
+	}
+	.mobile-bar-btn:active {
+		scale: 0.96;
+		background-color: rgb(0 74 173 / 0.08);
+	}
+	.mobile-bar-primary {
+		flex-direction: row;
+		gap: 0.5rem;
+		background-color: var(--color-gold-500);
+		color: var(--color-brand-900);
+		font-size: 0.875rem;
+		font-weight: 800;
+		white-space: nowrap;
+		box-shadow: 0 6px 16px -8px rgb(179 155 62 / 0.9);
+	}
+	.mobile-bar-primary:active {
+		background-color: var(--color-gold-600);
+	}
+	.mobile-bar-btn:focus-visible {
+		outline: 3px solid var(--color-brand-600);
+		outline-offset: 2px;
+	}
+</style>

@@ -3,7 +3,8 @@ import { WHATSAPP_URL } from '../lib/contact';
 import WhatsAppIcon from './icons/WhatsAppIcon.astro';
 ---
 
-<div class="whatsapp-float-wrap fixed bottom-6 right-6 z-50">
+<!-- Solo en pantallas medianas y grandes; en celular lo reemplaza la barra inferior. -->
+<div class="whatsapp-float-wrap fixed bottom-6 right-6 z-50 hidden md:block">
 	<!-- Botón principal -->
 	<a
 		href={WHATSAPP_URL}

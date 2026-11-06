@@ -1,0 +1,60 @@
+---
+import { faqs } from '../data/faq';
+import { WHATSAPP_URL } from '../lib/contact';
+---
+
+<section id="preguntas" class="bg-cream-50 py-16 text-brand-900 sm:py-24" aria-labelledby="preguntas-title">
+	<div class="mx-auto grid max-w-6xl gap-10 px-4 lg:grid-cols-12 lg:gap-16">
+		<div class="lg:col-span-4" data-reveal>
+			<p class="eyebrow-label">Preguntas frecuentes</p>
+			<h2 id="preguntas-title" class="editorial-heading">Lo que más nos preguntan</h2>
+			<p class="mt-4 text-brand-900/70">
+				¿No ves tu pregunta?{' '}
+				<a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" class="font-bold text-brand-600 underline underline-offset-4">Escríbenos por WhatsApp</a>{' '}
+				y te respondemos.
+			</p>
+		</div>
+
+		<div class="border-t-2 border-brand-800 lg:col-span-8" data-reveal data-reveal-delay="80">
+			{
+				faqs.map((f, i) => (
+					<details class="faq group border-b border-brand-900/15" open={i === 0}>
+						<summary class="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 py-4 text-left text-base font-bold text-brand-800 sm:text-lg">
+							<h3 class="font-bold">{f.q}</h3>
+							<span class="faq-icon relative size-5 shrink-0" aria-hidden="true" />
+						</summary>
+						<p class="pb-5 pr-8 leading-relaxed text-brand-900/75">{f.a}</p>
+					</details>
+				))
+			}
+		</div>
+	</div>
+</section>
+
+<style>
+	.faq summary::-webkit-details-marker {
+		display: none;
+	}
+	/* "+" que gira a "−" al abrir, dibujado con dos líneas. */
+	.faq-icon::before,
+	.faq-icon::after {
+		content: '';
+		position: absolute;
+		inset: 50% 0 auto;
+		height: 2px;
+		margin-top: -1px;
+		border-radius: 2px;
+		background: var(--color-gold-700);
+		transition: rotate 0.25s ease;
+	}
+	.faq-icon::after {
+		rotate: 90deg;
+	}
+	.faq[open] .faq-icon::after {
+		rotate: 0deg;
+	}
+	.faq summary:focus-visible {
+		outline: 3px solid var(--color-brand-600);
+		outline-offset: 2px;
+	}
+</style>

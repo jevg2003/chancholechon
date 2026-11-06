@@ -1,5 +1,6 @@
 ---
 import { PHONE_DISPLAY, PHONE_TEL_HREF, WHATSAPP_URL } from '../lib/contact';
+import { BUSINESS_ADDRESS, MAPS_URL } from '../lib/siteMeta';
 ---
 
 <section id="ubicanos" class="relative overflow-hidden bg-brand-800 py-20 text-cream-50 sm:py-28">
@@ -65,7 +66,17 @@ import { PHONE_DISPLAY, PHONE_TEL_HREF, WHATSAPP_URL } from '../lib/contact';
 						</span>
 						<div>
 							<h3 class="text-lg font-extrabold text-brand-800">Nuestra lechonería en el 7 de Agosto</h3>
-							<p class="mt-1 text-brand-900/70">Barrio 7 de Agosto, Santiago de Cali.</p>
+							<address class="mt-1 not-italic text-brand-900/70">
+								{BUSINESS_ADDRESS.street}, barrio 7 de Agosto, Cali, Valle del Cauca.
+							</address>
+							<a
+								href={MAPS_URL}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="mt-3 inline-flex min-h-11 items-center gap-2 rounded-full bg-brand-800 px-5 text-sm font-bold text-cream-50 transition-colors hover:bg-brand-900"
+							>
+								Cómo llegar en Google Maps
+							</a>
 						</div>
 					</div>
 				</div>

@@ -4,13 +4,12 @@ import {
 	SITE_URL,
 	SITE_TITLE,
 	SITE_DESCRIPTION,
-	SITE_KEYWORDS,
 	BUSINESS_NAME,
 	OG_IMAGE_PATH,
 	OG_IMAGE_ALT,
 	GOOGLE_SITE_VERIFICATION,
 } from '../lib/siteMeta';
-import { buildLocalBusinessSchema, buildBreadcrumbSchema, buildWebsiteSchema } from '../lib/structuredData';
+import { buildHomeSchema, buildPageSchema } from '../lib/structuredData';
 
 interface Props {
 	title?: string;
@@ -22,12 +21,11 @@ const { title = SITE_TITLE, description = SITE_DESCRIPTION } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, SITE_URL).toString();
 const ogImageURL = new URL(OG_IMAGE_PATH, SITE_URL).toString();
 
-const localBusinessSchema = buildLocalBusinessSchema();
-const breadcrumbSchema = buildBreadcrumbSchema();
-const websiteSchema = buildWebsiteSchema();
+const isHome = Astro.url.pathname === '/' || Astro.url.pathname === '';
+const schema = isHome ? await buildHomeSchema() : buildPageSchema(Astro.url.pathname, title, description);
 ---
 
-<html lang="es">
+<html lang="es-CO">
 	<head>
 		<meta charset="UTF-8" />
 		<script is:inline>
@@ -42,9 +40,13 @@ const websiteSchema = buildWebsiteSchema();
 		<!-- SEO on-page -->
 		<title>{title}</title>
 		<meta name="description" content={description} />
-		<meta name="keywords" content={SITE_KEYWORDS} />
 		<meta name="author" content={BUSINESS_NAME} />
-		<meta name="robots" content="index, follow" />
+		<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+		<meta name="geo.region" content="CO-VAC" />
+		<meta name="geo.placename" content="Cali" />
+		<meta name="geo.position" content="3.445028;-76.488641" />
+		<meta name="ICBM" content="3.445028, -76.488641" />
+		<meta name="format-detection" content="telephone=no" />
 		<meta name="theme-color" content="#004aad" />
 		<link rel="canonical" href={canonicalURL} />
 
@@ -52,6 +54,7 @@ const websiteSchema = buildWebsiteSchema();
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:image" content={ogImageURL} />
+		<meta property="og:image:type" content="image/jpeg" />
 		<meta property="og:image:width" content="1200" />
 		<meta property="og:image:height" content="630" />
 		<meta property="og:image:alt" content={OG_IMAGE_ALT} />
@@ -68,9 +71,7 @@ const websiteSchema = buildWebsiteSchema();
 		<meta name="twitter:image:alt" content={OG_IMAGE_ALT} />
 
 		<!-- Structured data (Schema.org) -->
-		<script type="application/ld+json" set:html={JSON.stringify(localBusinessSchema)} />
-		<script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
-		<script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+		<script type="application/ld+json" set:html={JSON.stringify(schema)} />
 
 		<!-- Favicons and app icons -->
 		<link rel="icon" href="/favicon.ico?v=2" sizes="any" />

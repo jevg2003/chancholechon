@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import type { Product } from '../types/product';
 
 interface Props {
@@ -17,10 +18,15 @@ const { product } = Astro.props;
 	data-message={product.message}
 	aria-label={`Ver ${product.name}`}
 >
-	<img
+	<Image
 		src={product.image}
-		alt={product.name}
+		alt={`${product.name} de Lechonería Chancho el Lechón en Cali`}
+		widths={[320, 480, 720, 960]}
+		sizes="(min-width: 768px) 33vw, 50vw"
+		format="webp"
+		quality={78}
 		loading="lazy"
+		decoding="async"
 		class="producto-img h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
 		data-flip-id={product.id}
 	/>

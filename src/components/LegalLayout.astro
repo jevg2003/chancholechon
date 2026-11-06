@@ -5,12 +5,16 @@ interface Props {
 	title: string;
 	heading: string;
 	updated: string;
+	description?: string;
 }
 
 const { title, heading, updated } = Astro.props;
+const description =
+	Astro.props.description ??
+	`${heading} del sitio web de Lechonería Chancho el Lechón, lechonería del barrio 7 de Agosto en Cali.`;
 ---
 
-<Layout title={title}>
+<Layout title={title} description={description}>
 	<header class="bg-brand-800 text-cream-50">
 		<div class="mx-auto flex max-w-4xl items-center justify-between px-4 py-5">
 			<a href="/" class="inline-flex items-center gap-3" aria-label="Volver al inicio">

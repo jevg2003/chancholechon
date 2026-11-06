@@ -32,6 +32,17 @@ body {
 	font-family: var(--font-sans);
 }
 
+/* Hidden until the inline observer in Layout.astro reveals it. */
+.reveal-ready [data-reveal]:not([data-revealed]) {
+	opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+}
+
 @layer components {
 	.eyebrow-label {
 		@apply inline-block text-xs sm:text-sm font-bold tracking-[0.2em] uppercase text-gold-600 mb-3;

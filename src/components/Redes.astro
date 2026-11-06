@@ -33,20 +33,19 @@ const channels = [
 <section id="redes" class="bg-cream-50 py-16 sm:py-24">
 	<div class="mx-auto max-w-6xl px-4">
 		<div class="mx-auto max-w-3xl text-center">
-			<h2 class="editorial-heading mb-2">Síguenos y Contáctanos</h2>
+			<h2 data-reveal class="editorial-heading mb-2">Síguenos y Contáctanos</h2>
 			<p class="mb-10 text-lg font-semibold text-brand-600">Elige tu canal favorito y hablemos</p>
 		</div>
 
 		<div class="grid gap-4 sm:grid-cols-3 lg:gap-6">
 			{
-				channels.map((c) => (
+				channels.map((c, i) => (
 					<a
 						href={c.href}
 						target="_blank"
 						rel="noopener noreferrer"
-						class="red-card group relative flex items-center gap-4 overflow-hidden rounded-3xl bg-white p-5 shadow-lg ring-1 ring-brand-900/5 will-change-transform sm:flex-col sm:items-center sm:gap-3 sm:p-8 sm:text-center"
+						data-reveal data-reveal-delay={String(i * 90)} class="red-card group relative flex items-center gap-4 overflow-hidden rounded-3xl bg-white p-5 shadow-lg ring-1 ring-brand-900/5 sm:flex-col sm:items-center sm:gap-3 sm:p-8 sm:text-center"
 					>
-						<span class="red-spotlight pointer-events-none absolute inset-0 opacity-0" aria-hidden="true" />
 						<span class={`red-icon flex size-14 shrink-0 items-center justify-center rounded-2xl text-white shadow-md sm:size-16 ${c.chip}`}>
 							{c.icon === 'whatsapp' && <WhatsAppIcon class="size-8" detailed />}
 							{c.icon === 'facebook' && (
@@ -80,79 +79,12 @@ const channels = [
 
 <style>
 	.red-card {
-		transition: box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+		transition:
+			box-shadow 0.3s ease,
+			translate 0.3s ease;
 	}
 	.red-card:hover {
+		translate: 0 -4px;
 		box-shadow: 0 22px 40px -18px rgb(0 0 0 / 0.3);
 	}
-	/* Cursor-following spotlight, positioned via --mx/--my from JS. */
-	.red-spotlight {
-		background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgb(255 222 89 / 0.22), transparent 65%);
-		transition: opacity 0.3s ease;
-	}
-	.red-card:hover .red-spotlight {
-		opacity: 1;
-	}
 </style>
-
-<script>
-	import gsap from 'gsap';
-	import { ScrollTrigger } from 'gsap/ScrollTrigger';
-	import { initCardHoverLift } from '../lib/cardHoverLift';
-
-	gsap.registerPlugin(ScrollTrigger);
-
-	const mm = gsap.matchMedia();
-
-	mm.add({ reduceMotion: '(prefers-reduced-motion: reduce)', okMotion: '(prefers-reduced-motion: no-preference)' }, (context) => {
-		const { reduceMotion } = context.conditions as { reduceMotion: boolean };
-
-		gsap.from('.red-card', {
-			autoAlpha: 0,
-			y: reduceMotion ? 0 : 50,
-			duration: reduceMotion ? 0.3 : 0.7,
-			ease: 'power3.out',
-			stagger: reduceMotion ? 0.05 : 0.12,
-			scrollTrigger: { trigger: '#redes', start: 'top 75%', toggleActions: 'play none none none' },
-		});
-
-		if (!reduceMotion) {
-			gsap.from('.red-icon', {
-				scale: 0,
-				rotation: -30,
-				duration: 0.5,
-				ease: 'back.out(2)',
-				stagger: 0.12,
-				delay: 0.25,
-				scrollTrigger: { trigger: '#redes', start: 'top 75%', toggleActions: 'play none none none' },
-			});
-
-			const cards = gsap.utils.toArray<HTMLElement>('.red-card');
-			initCardHoverLift(cards, { liftY: -6, iconSelector: '.red-icon', leaveDuration: 0.5 });
-
-			// 3D tilt toward the cursor + spotlight tracking, layered on top of
-			// the shared hover lift above.
-			cards.forEach((card) => {
-				gsap.set(card, { transformPerspective: 700 });
-				const rx = gsap.quickTo(card, 'rotationX', { duration: 0.4, ease: 'power2.out' });
-				const ry = gsap.quickTo(card, 'rotationY', { duration: 0.4, ease: 'power2.out' });
-
-				card.addEventListener('mousemove', (e) => {
-					const r = card.getBoundingClientRect();
-					const px = (e.clientX - r.left) / r.width;
-					const py = (e.clientY - r.top) / r.height;
-					card.style.setProperty('--mx', `${px * 100}%`);
-					card.style.setProperty('--my', `${py * 100}%`);
-					rx((0.5 - py) * 10);
-					ry((px - 0.5) * 10);
-				});
-				card.addEventListener('mouseleave', () => {
-					rx(0);
-					ry(0);
-				});
-			});
-		}
-
-		return () => {};
-	});
-</script>

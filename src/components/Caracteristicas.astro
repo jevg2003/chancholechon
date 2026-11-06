@@ -10,13 +10,13 @@ const checkItems = ['Responsabilidad', 'Confianza', 'Compromiso', 'Don de servic
 
 	<div class="relative mx-auto max-w-6xl px-4">
 		<div class="mx-auto max-w-3xl text-center">
-			<h2 class="caracteristicas-title mb-12 text-3xl font-extrabold leading-tight text-cream-50 sm:text-4xl lg:text-5xl">
+			<h2 data-reveal class="caracteristicas-title mb-12 text-3xl font-extrabold leading-tight text-cream-50 sm:text-4xl lg:text-5xl">
 				Calidad, cercanía y compromiso <span class="text-gold-400">en cada entrega</span>
 			</h2>
 		</div>
 
 		<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-5">
-			<div class="caracteristica-block flex flex-col rounded-3xl bg-cream-50 p-7 text-brand-900 shadow-xl sm:col-span-2 lg:row-span-2">
+			<div data-reveal data-reveal-delay="0" class="caracteristica-block flex flex-col rounded-3xl bg-cream-50 p-7 text-brand-900 shadow-xl sm:col-span-2 lg:row-span-2">
 				<span class="caracteristica-icon mb-4 flex size-12 items-center justify-center rounded-2xl bg-brand-600 text-gold-400">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-6">
 						<path d="M12 21c-4.5-3.2-8-6.4-8-10a5 5 0 0 1 9-3 5 5 0 0 1 9 3c0 3.6-3.5 6.8-8 10z"></path>
@@ -40,7 +40,7 @@ const checkItems = ['Responsabilidad', 'Confianza', 'Compromiso', 'Don de servic
 				</ul>
 			</div>
 
-			<div class="caracteristica-block rounded-3xl bg-cream-50 p-6 text-brand-900 shadow-xl">
+			<div data-reveal data-reveal-delay="80" class="caracteristica-block rounded-3xl bg-cream-50 p-6 text-brand-900 shadow-xl">
 				<span class="caracteristica-icon mb-4 flex size-12 items-center justify-center rounded-2xl bg-brand-600 text-gold-400">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-6">
 						<path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.8-.9L3 21l1.9-5.7a8.5 8.5 0 1 1 16.1-3.8z"></path>
@@ -50,7 +50,7 @@ const checkItems = ['Responsabilidad', 'Confianza', 'Compromiso', 'Don de servic
 				<p class="text-brand-900/70">Contamos con canales de atención para que compres con seguridad.</p>
 			</div>
 
-			<div class="caracteristica-block rounded-3xl bg-cream-50 p-6 text-brand-900 shadow-xl">
+			<div data-reveal data-reveal-delay="160" class="caracteristica-block rounded-3xl bg-cream-50 p-6 text-brand-900 shadow-xl">
 				<span class="caracteristica-icon mb-4 flex size-12 items-center justify-center rounded-2xl bg-brand-600 text-gold-400">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-6">
 						<path d="M1 8h13v8H1z"></path>
@@ -63,7 +63,7 @@ const checkItems = ['Responsabilidad', 'Confianza', 'Compromiso', 'Don de servic
 				<p class="text-brand-900/70">En la ciudad de Cali y alrededores.</p>
 			</div>
 
-			<div class="caracteristica-block rounded-3xl bg-cream-50 p-6 text-brand-900 shadow-xl lg:col-span-2">
+			<div data-reveal data-reveal-delay="240" class="caracteristica-block rounded-3xl bg-cream-50 p-6 text-brand-900 shadow-xl lg:col-span-2">
 				<span class="caracteristica-icon mb-4 flex size-12 items-center justify-center rounded-2xl bg-brand-600 text-gold-400">
 					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-6">
 						<path d="M6 13a6 6 0 1 1 12 0v2H6z"></path>
@@ -78,78 +78,15 @@ const checkItems = ['Responsabilidad', 'Confianza', 'Compromiso', 'Don de servic
 </section>
 
 <style>
-	/* transform is GSAP-owned (entrance + hover lift): a CSS transition on it
-	   would fight the tween and leave cards stuck mid-flight. */
 	.caracteristica-block {
-		transition: box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+		transition:
+			box-shadow 0.3s ease,
+			translate 0.3s ease;
 	}
-	.caracteristica-block:hover {
-		box-shadow: 0 22px 40px -18px rgb(0 0 0 / 0.45);
+	@media (hover: hover) {
+		.caracteristica-block:hover {
+			translate: 0 -5px;
+			box-shadow: 0 22px 40px -18px rgb(0 0 0 / 0.45);
+		}
 	}
 </style>
-
-<script>
-	import gsap from 'gsap';
-	import { ScrollTrigger } from 'gsap/ScrollTrigger';
-	import { initCardHoverLift } from '../lib/cardHoverLift';
-
-	gsap.registerPlugin(ScrollTrigger);
-
-	const mm = gsap.matchMedia();
-
-	mm.add({ reduceMotion: '(prefers-reduced-motion: reduce)', okMotion: '(prefers-reduced-motion: no-preference)' }, (context) => {
-		const { reduceMotion } = context.conditions as { reduceMotion: boolean };
-
-		if (reduceMotion) {
-			gsap.from('.caracteristica-block', {
-				autoAlpha: 0,
-				duration: 0.3,
-				stagger: 0.05,
-				scrollTrigger: { trigger: '#caracteristicas', start: 'top 75%', toggleActions: 'play none none none' },
-			});
-			return () => {};
-		}
-
-		const entrance = gsap.timeline({
-			scrollTrigger: {
-				trigger: '#caracteristicas',
-				start: 'top 70%',
-				toggleActions: 'play none none none',
-			},
-			defaults: { ease: 'power3.out' },
-		});
-
-		entrance
-			.from('.caracteristicas-title', { autoAlpha: 0, y: 40, duration: 0.7 })
-			.from(
-				'.caracteristica-block',
-				{ autoAlpha: 0, y: 60, duration: 0.7, stagger: 0.12 },
-				'-=0.35'
-			)
-			.from('.caracteristica-icon', { scale: 0, rotation: -45, duration: 0.5, ease: 'back.out(2)', stagger: 0.08 }, '-=0.6')
-			.from('.caracteristica-valor', { autoAlpha: 0, x: -24, duration: 0.4, stagger: 0.09 }, '-=0.4');
-
-		// Each check mark draws itself in as its row arrives.
-		gsap.utils.toArray<SVGPolylineElement>('.caracteristica-check polyline').forEach((line, i) => {
-			const len = line.getTotalLength();
-			gsap.fromTo(
-				line,
-				{ strokeDasharray: len, strokeDashoffset: len },
-				{
-					strokeDashoffset: 0,
-					duration: 0.45,
-					ease: 'power2.out',
-					delay: 0.9 + i * 0.09,
-					scrollTrigger: { trigger: '#caracteristicas', start: 'top 70%', toggleActions: 'play none none none' },
-				}
-			);
-		});
-
-		initCardHoverLift(gsap.utils.toArray<HTMLElement>('.caracteristica-block'), {
-			liftY: -6,
-			iconSelector: '.caracteristica-icon, .caracteristica-logo',
-		});
-
-		return () => {};
-	});
-</script>

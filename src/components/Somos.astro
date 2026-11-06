@@ -1,176 +1,180 @@
 ---
 import { Image } from 'astro:assets';
 import somosImg from '../assets/images/lechona-entera-horneada.png';
+
+const ficha = [
+	{ label: 'Fundada', value: '2019, en el barrio 7 de Agosto de Cali' },
+	{ label: 'Pedidos desde', value: '15 porciones, lechona o cojín' },
+	{ label: 'Preparación', value: 'Aceite drenado: seca, sin grasa y con cuero crocante' },
+	{ label: 'También hacemos', value: 'Lechona mixta, pernil asado y tamales vallunos y tolimenses' },
+];
+
+const valores = [
+	{ title: 'Personal', text: 'Amabilidad, agilidad y una sonrisa al porcionar y servir cada plato.' },
+	{ title: 'Calidad', text: 'Producto fresco, jugoso y con el punto perfecto de cocción.' },
+	{ title: 'Tradición', text: 'La auténtica receta de la lechona colombiana, sin atajos.' },
+	{ title: 'Servicio', text: 'Atención cálida y puntual para cada ocasión especial.' },
+];
 ---
 
-<section id="somos-chancho" class="somos-historia relative overflow-hidden bg-brand-800 text-cream-50">
-	<div class="somos-track flex flex-col md:h-screen md:w-[400vw] md:flex-row">
-		<article class="somos-panel flex min-h-[80vh] w-full items-center px-4 py-16 md:h-screen md:w-screen md:py-0">
-			<div class="somos-inner mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-2">
-				<div>
-					<h2 class="text-4xl font-extrabold leading-tight sm:text-5xl lg:text-6xl">Quiénes Somos</h2>
-					<h4 class="mt-3 text-lg font-semibold text-gold-400">
-						LECHONERÍA CHANCHO EL LECHÓN, Empresa Caleña fundada en el año 2019.
-					</h4>
-					<div class="mt-6 space-y-4 leading-relaxed text-cream-50/90">
-						<p>
-							Somos una empresa fundada en 2019 dedicada a preparar y vender lechona tradicional de alta
-							calidad, para deleitar los paladares de nuestros clientes en cada celebración y reunión
-							familiar.
-						</p>
-						<p>
-							Elaboramos las mejores lechonas de la ciudad, ofreciendo a todos nuestros clientes un producto de
-							excelente calidad, con un sabor particular, muy buena carne y un cuero súper crocante, una sazón
-							exquisita ya que su preparación es especial debido al proceso de drenaje del Aceite que la hace muy
-							seca y cero grasa.
-						</p>
-						<p>
-							Ofrecemos Cojines y Lechonas desde 15 porciones en adelante con precios muy competitivos que se
-							adaptan a cualquier presupuesto.
-						</p>
-						<p>
-							Hacemos lechona mixta (cabanos, pollo, costilla ahumada y cerdo), pernil de cerdo asado y tamales
-							vallunos y tolimenses.
-						</p>
-					</div>
+<section id="somos-chancho" class="somos relative overflow-hidden bg-cream-50 text-brand-900" aria-labelledby="somos-title">
+	<!-- Bloque 1: quiénes somos + ficha de la casa -->
+	<div class="mx-auto grid max-w-6xl gap-12 px-4 pb-16 pt-20 sm:pt-28 lg:grid-cols-12 lg:gap-16 lg:pb-24">
+		<div class="lg:col-span-7">
+			<p class="eyebrow-label" data-reveal>Quiénes somos</p>
+			<h2 id="somos-title" class="text-4xl font-extrabold leading-[1.05] tracking-tight text-brand-800 sm:text-5xl lg:text-[3.5rem]" data-reveal>
+				Lechona caleña hecha{' '}
+				<span class="somos-mark relative whitespace-nowrap">como en casa</span>, desde 2019.
+			</h2>
+			<p class="mt-6 max-w-xl text-lg leading-relaxed text-brand-900/75" data-reveal data-reveal-delay="80">
+				Somos una empresa caleña que prepara y vende lechona tradicional de alta calidad para las celebraciones
+				y reuniones familiares de nuestros clientes. Muy buena carne, sazón exquisita y precios que se adaptan a
+				cualquier presupuesto.
+			</p>
+
+			<dl class="somos-ficha mt-10 border-t-2 border-brand-800" data-reveal data-reveal-delay="140">
+				<div class="py-3">
+					<p class="text-xs font-bold uppercase tracking-[0.2em] text-gold-700">Ficha de la casa</p>
 				</div>
-				<div class="somos-img relative flex justify-center">
+				{
+					ficha.map((row) => (
+						<div class="somos-ficha-row grid gap-1 border-b border-brand-900/15 py-4 sm:grid-cols-[11rem_1fr] sm:gap-6">
+							<dt class="text-xs font-bold uppercase tracking-[0.18em] text-brand-600 sm:pt-1">{row.label}</dt>
+							<dd class="text-base font-semibold text-brand-900 sm:text-lg">{row.value}</dd>
+						</div>
+					))
+				}
+			</dl>
+		</div>
+
+		<figure class="relative mx-auto w-full max-w-sm lg:col-span-5 lg:mx-0 lg:max-w-none" data-reveal data-reveal-delay="120">
+			<div class="relative">
+				<div class="somos-photo overflow-hidden rounded-t-[12rem] rounded-b-3xl bg-brand-800 shadow-[0_30px_60px_-30px_rgb(0_41_95/0.55)]">
 					<Image
 						src={somosImg}
-						alt="Lechona entera horneada, Chancho el Lechón"
-						class="max-h-[75vh] w-auto rounded-3xl object-contain shadow-2xl ring-2 ring-gold-400/30"
-						widths={[480, 768, 1024]}
-						sizes="(min-width: 768px) 26rem, 85vw"
+						alt="Lechona entera recién horneada en su bandeja, Chancho el Lechón"
+						class="aspect-[4/5] h-full w-full object-cover"
+						widths={[420, 640, 900]}
+						sizes="(min-width: 1024px) 26rem, (min-width: 640px) 24rem, 90vw"
 						format="webp"
-						quality={85}
+						quality={80}
+						loading="lazy"
+						decoding="async"
 					/>
 				</div>
-			</div>
-		</article>
-
-		<article
-			id="vision-mision"
-			class="somos-panel relative flex min-h-[70vh] w-full items-center overflow-hidden bg-brand-700 px-4 py-16 md:h-screen md:w-screen md:py-0"
-		>
-			<div class="pointer-events-none absolute inset-0" aria-hidden="true">
-				<span class="somos-shape somos-shape-ring somos-morph absolute left-[8%] top-[10%] size-14 bg-gold-400/40 opacity-40 md:top-[18%] md:size-24 md:opacity-100"></span>
-				<span class="somos-shape somos-shape-dot somos-morph absolute right-[12%] top-[16%] size-8 bg-gold-400/70 opacity-40 md:top-[25%] md:size-12 md:opacity-100"></span>
-				<span class="somos-shape somos-shape-square somos-morph absolute bottom-[10%] right-[20%] size-10 bg-cream-50/30 opacity-40 md:bottom-[18%] md:size-16 md:opacity-100"></span>
-				<span class="somos-shape somos-shape-dot2 somos-morph absolute bottom-[16%] left-[15%] size-7 bg-cream-50/50 opacity-40 md:bottom-[30%] md:size-10 md:opacity-100"></span>
-			</div>
-			<div class="somos-inner relative z-10 mx-auto max-w-4xl">
-				<h2 class="text-4xl font-extrabold leading-tight sm:text-5xl lg:text-6xl">Misión</h2>
-				<p class="mt-8 text-lg leading-relaxed text-cream-50/90 sm:text-xl">
-					Deleitar a nuestros clientes con nuestra lechona tradicional colombiana, elaborada con ingredientes
-					frescos y de la más alta calidad, brindando un servicio cálido y rápido que convierta cada
-					celebración y momento en familia en una experiencia inolvidable.
-				</p>
-			</div>
-		</article>
-
-		<article class="somos-panel relative flex min-h-[70vh] w-full items-center overflow-hidden bg-brand-900 px-4 py-16 md:h-screen md:w-screen md:py-0">
-			<div class="pointer-events-none absolute inset-0" aria-hidden="true">
-				<span class="somos-shape somos-shape-ring somos-morph absolute right-[10%] top-[8%] size-16 bg-gold-400/30 opacity-40 md:top-[15%] md:size-28 md:opacity-100"></span>
-				<span class="somos-shape somos-shape-cross absolute left-[10%] top-[14%] text-2xl font-black text-gold-400/50 opacity-40 md:top-[30%] md:text-4xl md:opacity-100">+</span>
-				<span class="somos-shape somos-shape-dot somos-morph absolute bottom-[14%] left-[22%] size-8 bg-gold-400/60 opacity-40 md:bottom-[22%] md:size-12 md:opacity-100"></span>
-				<span class="somos-shape somos-shape-square somos-morph absolute bottom-[8%] right-[15%] size-9 bg-cream-50/25 opacity-40 md:bottom-[15%] md:size-14 md:opacity-100"></span>
-			</div>
-			<div class="somos-inner relative z-10 mx-auto max-w-4xl">
-				<h2 class="text-4xl font-extrabold leading-tight sm:text-5xl lg:text-6xl">Visión</h2>
-				<p class="mt-8 text-lg leading-relaxed text-cream-50/90 sm:text-xl">
-					Ser reconocidos para el año 2030 como la mejor lechonería de la ciudad, destacados por nuestro sabor
-					tradicional, la excelente calidad de los ingredientes y un servicio que conquista a cada cliente en
-					sus reuniones, fiestas, eventos empresariales y actividades especiales.
-				</p>
-			</div>
-		</article>
-
-		<article class="somos-panel relative flex min-h-[80vh] w-full items-center overflow-hidden bg-brand-800 px-4 py-16 md:h-screen md:w-screen md:py-0">
-			<div class="pointer-events-none absolute inset-0" aria-hidden="true">
-				<span class="somos-shape somos-shape-dot somos-morph absolute left-[10%] top-[12%] size-9 bg-gold-400/60 opacity-40 md:top-[20%] md:size-14 md:opacity-100"></span>
-				<span class="somos-shape somos-shape-ring somos-morph absolute right-[8%] top-[10%] size-14 bg-cream-50/30 opacity-40 md:top-[16%] md:size-22 md:opacity-100"></span>
-				<span class="somos-shape somos-shape-square somos-morph absolute bottom-[12%] left-[18%] size-8 bg-gold-400/40 opacity-40 md:bottom-[20%] md:size-12 md:opacity-100"></span>
-			</div>
-			<div class="somos-inner relative z-10 mx-auto max-w-5xl">
-				<h2 class="text-4xl font-extrabold leading-tight sm:text-5xl lg:text-6xl">Nuestra Historia</h2>
-				<p class="mt-8 text-lg leading-relaxed text-cream-50/90 sm:text-xl">
-					Nacimos en 2019 con el sueño de llevar el mejor sabor tradicional a los hogares. Combinamos una
-					receta casera con ingredientes frescos y seleccionados, y crecimos gracias a la confianza de
-					nuestros clientes en cada evento.
-				</p>
-				<h3 class="mt-10 text-2xl font-bold text-gold-400 sm:text-3xl">Nuestros Valores</h3>
-				<div class="mt-6 grid gap-4 sm:grid-cols-2">
-					<div class="rounded-2xl bg-brand-700/60 p-5 ring-1 ring-gold-400/20">
-						<h4 class="font-semibold text-gold-400">Personal</h4>
-						<p class="mt-1 text-cream-50/90">
-							Tratar al cliente con amabilidad, agilidad y una sonrisa al momento de porcionar y servir
-							el plato.
-						</p>
-					</div>
-					<div class="rounded-2xl bg-brand-700/60 p-5 ring-1 ring-gold-400/20">
-						<h4 class="font-semibold text-gold-400">Calidad</h4>
-						<p class="mt-1 text-cream-50/90">
-							Ofrecer un producto fresco, jugoso y con el punto perfecto de cocción.
-						</p>
-					</div>
-					<div class="rounded-2xl bg-brand-700/60 p-5 ring-1 ring-gold-400/20">
-						<h4 class="font-semibold text-gold-400">Tradición</h4>
-						<p class="mt-1 text-cream-50/90">Mantener viva la auténtica receta de la lechona colombiana.</p>
-					</div>
-					<div class="rounded-2xl bg-brand-700/60 p-5 ring-1 ring-gold-400/20">
-						<h4 class="font-semibold text-gold-400">Servicio</h4>
-						<p class="mt-1 text-cream-50/90">
-							Brindar una atención cálida y puntual para cada ocasión especial.
-						</p>
-					</div>
+				<!-- Sello circular: texto sobre un trazo SVG, sin animación -->
+				<div class="somos-seal absolute -bottom-6 -right-2 size-28 sm:-bottom-8 sm:-left-8 sm:right-auto sm:size-36" aria-hidden="true">
+					<svg viewBox="0 0 120 120" class="size-full">
+						<defs>
+							<path id="somos-seal-path" d="M60,60 m-44,0 a44,44 0 1,1 88,0 a44,44 0 1,1 -88,0" />
+						</defs>
+						<circle cx="60" cy="60" r="58" class="fill-gold-500" />
+						<circle cx="60" cy="60" r="31" class="fill-brand-800" />
+						<text class="fill-brand-900 text-[10.5px] font-extrabold uppercase ">
+							<textPath href="#somos-seal-path" textLength="272" lengthAdjust="spacing">Lechona seca · Cero grasa · Cali ·</textPath>
+						</text>
+						<text x="60" y="57" text-anchor="middle" class="fill-gold-400 text-[9px] font-bold uppercase tracking-[0.2em]">Desde</text>
+						<text x="60" y="73" text-anchor="middle" class="fill-cream-50 text-[17px] font-extrabold">2019</text>
+					</svg>
 				</div>
 			</div>
-		</article>
+
+			<figcaption class="mt-4 pr-28 text-sm text-brand-900/60 sm:mt-12 sm:pl-32 sm:pr-0 lg:text-right">
+				Lechona entera, lista para tu celebración.
+			</figcaption>
+		</figure>
+	</div>
+
+	<!-- Bloque 2: misión y visión -->
+	<div id="vision-mision" class="px-4">
+		<div class="relative mx-auto max-w-6xl overflow-hidden rounded-[2rem] bg-brand-800 text-cream-50 sm:rounded-[2.5rem]">
+			<span
+				class="somos-2030 pointer-events-none absolute -bottom-10 right-4 select-none text-[9rem] font-black leading-none sm:text-[13rem] lg:-bottom-16 lg:text-[16rem]"
+				aria-hidden="true">2030</span
+			>
+
+			<div class="relative grid md:grid-cols-2">
+				<article class="p-8 sm:p-12 lg:p-16" data-reveal>
+					<p class="flex items-baseline gap-3 text-gold-400">
+						<span class="text-sm font-black tabular-nums">01</span>
+						<span class="h-px w-10 bg-gold-400/60"></span>
+					</p>
+					<h3 class="mt-4 text-3xl font-extrabold sm:text-4xl">Misión</h3>
+					<p class="mt-5 text-lg leading-relaxed text-cream-50/85">
+						Deleitar a nuestros clientes con lechona tradicional colombiana, elaborada con ingredientes frescos y de
+						la más alta calidad, con un servicio cálido y rápido que convierta cada celebración en familia en una
+						experiencia inolvidable.
+					</p>
+				</article>
+
+				<article class="border-t border-cream-50/15 p-8 sm:p-12 md:border-l md:border-t-0 lg:p-16" data-reveal data-reveal-delay="120">
+					<p class="flex items-baseline gap-3 text-gold-400">
+						<span class="text-sm font-black tabular-nums">02</span>
+						<span class="h-px w-10 bg-gold-400/60"></span>
+					</p>
+					<h3 class="mt-4 text-3xl font-extrabold sm:text-4xl">Visión</h3>
+					<p class="mt-5 text-lg leading-relaxed text-cream-50/85">
+						Ser reconocidos en 2030 como la mejor lechonería de la ciudad, por nuestro sabor tradicional, la calidad
+						de los ingredientes y un servicio que conquista a cada cliente en sus reuniones, fiestas, eventos
+						empresariales y actividades especiales.
+					</p>
+				</article>
+			</div>
+		</div>
+	</div>
+
+	<!-- Bloque 3: historia + valores -->
+	<div class="mx-auto grid max-w-6xl gap-10 px-4 py-16 sm:py-24 lg:grid-cols-12 lg:gap-16">
+		<div class="lg:col-span-4" data-reveal>
+			<p class="eyebrow-label">Nuestra historia</p>
+			<p class="text-xl font-semibold leading-snug text-brand-800 sm:text-2xl">
+				Nacimos en 2019 con una receta casera y el sueño de llevar el mejor sabor tradicional a los hogares de Cali.
+			</p>
+			<p class="mt-4 text-brand-900/70">
+				Crecimos gracias a la confianza de nuestros clientes, evento tras evento.
+			</p>
+		</div>
+
+		<ol class="grid gap-x-10 sm:grid-cols-2 lg:col-span-8">
+			{
+				valores.map((v, i) => (
+					<li class="somos-valor border-t-2 border-brand-800/90 py-6" data-reveal data-reveal-delay={String(i * 90)}>
+						<div class="flex items-baseline justify-between gap-4">
+							<h3 class="text-xl font-extrabold text-brand-800">{v.title}</h3>
+							<span class="text-sm font-black tabular-nums text-gold-700">{String(i + 1).padStart(2, '0')}</span>
+						</div>
+						<p class="mt-2 leading-relaxed text-brand-900/70">{v.text}</p>
+					</li>
+				))
+			}
+		</ol>
 	</div>
 </section>
 
-<script>
-	import gsap from 'gsap';
-	import { ScrollTrigger } from 'gsap/ScrollTrigger';
-	import { initSomosHorizontalScroll, initSomosVerticalReveal } from '../lib/horizontalPinScroll';
-	import { initInteractiveShapes } from '../lib/interactiveShapes';
+<style>
+	/* Subrayado tipo marcador detrás de la frase clave. */
+	.somos-mark {
+		background-image: linear-gradient(transparent 62%, var(--color-gold-500) 62%, var(--color-gold-500) 92%, transparent 92%);
+		padding-inline: 0.06em;
+	}
 
-	gsap.registerPlugin(ScrollTrigger);
+	/* Número decorativo de la visión: solo contorno, sin relleno. */
+	.somos-2030 {
+		color: transparent;
+		-webkit-text-stroke: 2px rgb(255 230 131 / 0.16);
+	}
 
-	const mm = gsap.matchMedia();
+	.somos-seal {
+		filter: drop-shadow(0 12px 18px rgb(0 41 95 / 0.25));
+		transform: rotate(-12deg);
+	}
 
-	mm.add(
-		{
-			reduceMotion: '(prefers-reduced-motion: reduce)',
-			okMotion: '(prefers-reduced-motion: no-preference)',
-			isDesktop: '(min-width: 768px)',
-			isMobile: '(max-width: 767px)',
-		},
-		(context) => {
-			const { reduceMotion, isDesktop } = context.conditions as {
-				reduceMotion: boolean;
-				isDesktop: boolean;
-			};
-
-			if (isDesktop && !reduceMotion) {
-				initSomosHorizontalScroll();
-			} else {
-				initSomosVerticalReveal(reduceMotion);
-			}
-
-			if (reduceMotion) {
-				return () => gsap.set('.somos-track', { clearProps: 'all' });
-			}
-
-			// Cleanup when the breakpoint flips (mobile <-> desktop): kill
-			// draggables/triggers and wipe leftover inline transforms so the
-			// other mode starts from a clean layout instead of a stuck one.
-			const cleanupShapes = initInteractiveShapes();
-
-			return () => {
-				cleanupShapes();
-				gsap.set('.somos-track', { clearProps: 'all' });
-			};
+	.somos-ficha-row {
+		transition: background-color 0.25s ease;
+	}
+	@media (hover: hover) {
+		.somos-ficha-row:hover {
+			background-color: rgb(0 74 173 / 0.04);
 		}
-	);
-</script>
+	}
+</style>

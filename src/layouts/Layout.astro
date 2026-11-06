@@ -36,6 +36,7 @@ const websiteSchema = buildWebsiteSchema();
 			}
 		</script>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<script is:inline>document.documentElement.classList.add('reveal-ready');</script>
 		<meta name="generator" content={Astro.generator} />
 
 		<!-- SEO on-page -->
@@ -92,5 +93,44 @@ const websiteSchema = buildWebsiteSchema();
 	</head>
 	<body>
 		<slot />
+		<!--
+			Scroll reveal for every [data-reveal] element: one IntersectionObserver
+			plus the Web Animations API, inlined so it never waits on a bundle and
+			never ties up scrolling. Optional per-element delay: data-reveal-delay="120".
+		-->
+		<script is:inline>
+			(() => {
+				const els = document.querySelectorAll('[data-reveal]');
+				const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+				if (reduce || !('IntersectionObserver' in window)) {
+					els.forEach((el) => el.setAttribute('data-revealed', ''));
+					return;
+				}
+				const io = new IntersectionObserver(
+					(entries) => {
+						entries.forEach((entry) => {
+							if (!entry.isIntersecting) return;
+							const el = entry.target;
+							io.unobserve(el);
+							el.setAttribute('data-revealed', '');
+							el.animate(
+								[
+									{ opacity: 0, transform: 'translate3d(0, 28px, 0)' },
+									{ opacity: 1, transform: 'none' },
+								],
+								{
+									duration: 720,
+									delay: Number(el.dataset.revealDelay || 0),
+									easing: 'cubic-bezier(0.2, 0.7, 0.2, 1)',
+									fill: 'backwards',
+								}
+							);
+						});
+					},
+					{ rootMargin: '0px 0px -8% 0px' }
+				);
+				els.forEach((el) => io.observe(el));
+			})();
+		</script>
 	</body>
 </html>

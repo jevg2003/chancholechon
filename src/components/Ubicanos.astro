@@ -11,14 +11,14 @@ import { PHONE_DISPLAY, PHONE_TEL_HREF, WHATSAPP_URL } from '../lib/contact';
 	<div class="relative mx-auto max-w-6xl px-4">
 		<div class="mx-auto max-w-3xl text-center">
 			<span class="eyebrow-label !text-gold-400">Visítanos</span>
-			<h2 class="ubicanos-title mb-12 text-3xl font-extrabold leading-tight text-cream-50 sm:text-4xl lg:text-5xl">
+			<h2 data-reveal class="ubicanos-title mb-12 text-3xl font-extrabold leading-tight text-cream-50 sm:text-4xl lg:text-5xl">
 				¡Ubícanos <span class="text-gold-400">en Cali!</span>
 			</h2>
 		</div>
 
 		<div class="grid items-stretch gap-5 lg:grid-cols-5">
 			<div class="ubicanos-info flex flex-col gap-4 lg:col-span-2">
-				<div class="ubicanos-card rounded-3xl bg-gold-500 p-6 text-brand-900 shadow-xl">
+				<div data-reveal data-reveal-delay="0" class="ubicanos-card rounded-3xl bg-gold-500 p-6 text-brand-900 shadow-xl">
 					<div class="flex flex-col items-center gap-3 text-center md:flex-row md:items-start md:text-left">
 						<span class="ubicanos-icon mt-1 flex size-11 shrink-0 items-center justify-center rounded-2xl bg-brand-900 text-gold-400">
 							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-6">
@@ -36,7 +36,7 @@ import { PHONE_DISPLAY, PHONE_TEL_HREF, WHATSAPP_URL } from '../lib/contact';
 					</div>
 				</div>
 
-				<div class="ubicanos-card rounded-3xl bg-cream-50 p-6 text-brand-900 shadow-xl">
+				<div data-reveal data-reveal-delay="80" class="ubicanos-card rounded-3xl bg-cream-50 p-6 text-brand-900 shadow-xl">
 					<div class="flex flex-col items-center gap-3 text-center md:flex-row md:items-start md:text-left">
 						<span class="ubicanos-icon mt-1 flex size-11 shrink-0 items-center justify-center rounded-2xl bg-brand-600 text-gold-400">
 							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-6">
@@ -55,7 +55,7 @@ import { PHONE_DISPLAY, PHONE_TEL_HREF, WHATSAPP_URL } from '../lib/contact';
 					</div>
 				</div>
 
-				<div class="ubicanos-card rounded-3xl bg-cream-50 p-6 text-brand-900 shadow-xl">
+				<div data-reveal data-reveal-delay="160" class="ubicanos-card rounded-3xl bg-cream-50 p-6 text-brand-900 shadow-xl">
 					<div class="flex flex-col items-center gap-3 text-center md:flex-row md:items-start md:text-left">
 						<span class="ubicanos-icon mt-1 flex size-11 shrink-0 items-center justify-center rounded-2xl bg-brand-600 text-gold-400">
 							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-6">
@@ -70,7 +70,7 @@ import { PHONE_DISPLAY, PHONE_TEL_HREF, WHATSAPP_URL } from '../lib/contact';
 					</div>
 				</div>
 
-				<div class="ubicanos-card rounded-3xl bg-cream-50 p-6 text-brand-900 shadow-xl">
+				<div data-reveal data-reveal-delay="240" class="ubicanos-card rounded-3xl bg-cream-50 p-6 text-brand-900 shadow-xl">
 					<div class="flex flex-col items-center gap-3 text-center md:flex-row md:items-start md:text-left">
 						<span class="ubicanos-icon mt-1 flex size-11 shrink-0 items-center justify-center rounded-2xl bg-brand-600 text-gold-400">
 							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="size-6">
@@ -92,7 +92,7 @@ import { PHONE_DISPLAY, PHONE_TEL_HREF, WHATSAPP_URL } from '../lib/contact';
 				</div>
 			</div>
 
-			<div class="ubicanos-map mt-10 overflow-hidden rounded-3xl shadow-2xl ring-2 ring-gold-400/20 lg:col-span-3 lg:mt-0">
+			<div data-reveal data-reveal-delay="120" class="ubicanos-map mt-10 overflow-hidden rounded-3xl shadow-2xl ring-2 ring-gold-400/20 lg:col-span-3 lg:mt-0">
 				<iframe
 					src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3982.608365770744!2d-76.48864115457685!3d3.44502800536179!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e30a7a704da3835%3A0x60b639078859074b!2sLechoneria%20Chancho%20el%20Lech%C3%B3n!5e0!3m2!1ses!2sco!4v1688500867815!5m2!1ses!2sco"
 					width="100%"
@@ -110,50 +110,15 @@ import { PHONE_DISPLAY, PHONE_TEL_HREF, WHATSAPP_URL } from '../lib/contact';
 </section>
 
 <style>
-	/* transform is GSAP-owned (entrance + hover lift): a CSS transition on it
-	   would fight the tween and leave cards stuck mid-flight. */
 	.ubicanos-card {
-		transition: box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+		transition:
+			box-shadow 0.3s ease,
+			translate 0.3s ease;
 	}
-	.ubicanos-card:hover {
-		box-shadow: 0 20px 36px -18px rgb(0 0 0 / 0.45);
+	@media (hover: hover) {
+		.ubicanos-card:hover {
+			translate: 0 -3px;
+			box-shadow: 0 20px 36px -18px rgb(0 0 0 / 0.45);
+		}
 	}
 </style>
-
-<script>
-	import gsap from 'gsap';
-	import { ScrollTrigger } from 'gsap/ScrollTrigger';
-	import { initCardHoverLift } from '../lib/cardHoverLift';
-
-	gsap.registerPlugin(ScrollTrigger);
-
-	const mm = gsap.matchMedia();
-
-	mm.add({ reduceMotion: '(prefers-reduced-motion: reduce)', okMotion: '(prefers-reduced-motion: no-preference)' }, (context) => {
-		const { reduceMotion } = context.conditions as { reduceMotion: boolean };
-
-		if (reduceMotion) {
-			gsap.from('.ubicanos-card, .ubicanos-map', {
-				autoAlpha: 0,
-				duration: 0.3,
-				stagger: 0.05,
-				scrollTrigger: { trigger: '#ubicanos', start: 'top 75%', toggleActions: 'play none none none' },
-			});
-			return () => {};
-		}
-
-		gsap
-			.timeline({
-				scrollTrigger: { trigger: '#ubicanos', start: 'top 70%', toggleActions: 'play none none none' },
-				defaults: { ease: 'power3.out' },
-			})
-			.from('.ubicanos-title', { autoAlpha: 0, y: 40, duration: 0.7 })
-			.from('.ubicanos-card', { autoAlpha: 0, y: 40, duration: 0.7, stagger: 0.14 }, '-=0.35')
-			.from('.ubicanos-map', { autoAlpha: 0, y: 50, scale: 0.96, duration: 0.8 }, '-=0.7')
-			.from('.ubicanos-icon', { scale: 0, rotation: -30, duration: 0.5, ease: 'back.out(2)', stagger: 0.1 }, '-=0.7');
-
-		initCardHoverLift(gsap.utils.toArray<HTMLElement>('.ubicanos-card'), { liftY: -4 });
-
-		return () => {};
-	});
-</script>

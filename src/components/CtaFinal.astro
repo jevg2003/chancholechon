@@ -9,21 +9,21 @@ import WhatsAppIcon from './icons/WhatsAppIcon.astro';
 	</div>
 
 	<div class="cta-final-content relative mx-auto flex max-w-4xl flex-col items-center gap-6 px-4 py-24 text-center sm:py-32">
-		<h2 class="cta-title text-4xl font-extrabold leading-tight sm:text-5xl lg:text-6xl">
+		<h2 data-reveal class="cta-title text-4xl font-extrabold leading-tight sm:text-5xl lg:text-6xl">
 			¿Listo para realizar <span class="text-gold-400">tu pedido?</span>
 		</h2>
-		<p class="cta-sub max-w-xl text-lg text-cream-50/80">
+		<p data-reveal data-reveal-delay="80" class="cta-sub max-w-xl text-lg text-cream-50/80">
 			Escríbenos por WhatsApp y te cotizamos de una — lechona, cojines, tamales y más.
 		</p>
 
-		<div class="cta-magnet-zone mt-4 p-10">
+		<div class="mt-4 p-10" data-reveal data-reveal-delay="160">
 			<a
 				href={WHATSAPP_URL}
 				target="_blank"
 				rel="noopener noreferrer"
-				class="cta-magnet-btn inline-flex items-center gap-3 rounded-full bg-gold-500 px-10 py-5 text-xl font-extrabold text-brand-900 shadow-2xl will-change-transform hover:bg-gold-600"
+				class="inline-flex items-center gap-3 rounded-full bg-gold-500 px-10 py-5 text-xl font-extrabold text-brand-900 shadow-2xl transition-[background-color,translate] duration-200 hover:-translate-y-0.5 hover:bg-gold-600"
 			>
-				<span class="cta-magnet-label inline-flex items-center gap-3">
+				<span class="inline-flex items-center gap-3">
 					<WhatsAppIcon class="size-7" />
 					¡Realiza tu Pedido!
 				</span>
@@ -31,66 +31,3 @@ import WhatsAppIcon from './icons/WhatsAppIcon.astro';
 		</div>
 	</div>
 </section>
-
-<script>
-	import gsap from 'gsap';
-	import { ScrollTrigger } from 'gsap/ScrollTrigger';
-	import { initMagneticButton } from '../lib/magneticButton';
-
-	gsap.registerPlugin(ScrollTrigger);
-
-	const mm = gsap.matchMedia();
-
-	mm.add(
-		{
-			reduceMotion: '(prefers-reduced-motion: reduce)',
-			okMotion: '(prefers-reduced-motion: no-preference)',
-			canHover: '(hover: hover) and (pointer: fine)',
-			noHover: '(hover: none), (pointer: coarse)',
-		},
-		(context) => {
-			const { reduceMotion, canHover } = context.conditions as { reduceMotion: boolean; canHover: boolean };
-
-			// Entrance
-			if (reduceMotion) {
-				gsap.from('.cta-final-content', {
-					autoAlpha: 0,
-					duration: 0.3,
-					scrollTrigger: { trigger: '#final', start: 'top 75%', toggleActions: 'play none none none' },
-				});
-			} else {
-				gsap
-					.timeline({
-						scrollTrigger: { trigger: '#final', start: 'top 70%', toggleActions: 'play none none none' },
-						defaults: { ease: 'power3.out' },
-					})
-					.from('.cta-title', { autoAlpha: 0, y: 40, duration: 0.7 })
-					.from('.cta-sub', { autoAlpha: 0, y: 30, duration: 0.6 }, '-=0.45')
-					.from('.cta-magnet-btn', { autoAlpha: 0, scale: 0.6, duration: 0.7, ease: 'back.out(1.8)' }, '-=0.35');
-
-				gsap.to('.cta-glow', {
-					scale: 1.25,
-					opacity: 0.7,
-					duration: 3,
-					yoyo: true,
-					repeat: -1,
-					ease: 'sine.inOut',
-					scrollTrigger: { trigger: '#final', start: 'top bottom', end: 'bottom top', toggleActions: 'play pause resume pause' },
-				});
-			}
-
-			// Magnetic button (desktop pointers only): the button leans toward
-			// the cursor inside the zone and springs back elastically on leave.
-			let cleanupMagnet: (() => void) | undefined;
-			if (!reduceMotion && canHover) {
-				cleanupMagnet = initMagneticButton(
-					document.querySelector<HTMLElement>('.cta-magnet-zone')!,
-					document.querySelector<HTMLElement>('.cta-magnet-btn')!,
-					document.querySelector<HTMLElement>('.cta-magnet-label')
-				);
-			}
-
-			return () => cleanupMagnet?.();
-		}
-	);
-</script>

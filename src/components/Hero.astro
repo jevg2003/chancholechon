@@ -1,9 +1,6 @@
 ---
-import HeroLoader from './HeroLoader.astro';
 import HeroCutoutStack from './HeroCutoutStack.astro';
 ---
-
-<HeroLoader />
 
 <section id="hero" class="hero-section relative isolate min-h-screen overflow-hidden bg-brand-600 text-cream-50">
 	<div class="hero-particles pointer-events-none absolute inset-0" aria-hidden="true">
@@ -34,7 +31,7 @@ import HeroCutoutStack from './HeroCutoutStack.astro';
 
 		<div class="hero-pedestal-wrap relative mt-4 flex justify-center" tabindex="-1">
 			<div
-				class="hero-badge absolute -top-4 right-0 z-50 flex size-20 cursor-grab touch-none select-none items-center justify-center rounded-full border-2 border-gold-400 bg-brand-900/80 text-center text-xs font-bold uppercase leading-tight text-gold-400 shadow-xl active:cursor-grabbing sm:size-24 sm:text-sm"
+				class="hero-badge absolute -top-4 right-0 z-50 flex size-20 rotate-6 select-none items-center justify-center rounded-full border-2 border-gold-400 bg-brand-900/80 text-center text-xs font-bold uppercase leading-tight text-gold-400 shadow-xl sm:size-24 sm:text-sm"
 				aria-hidden="true"
 			>
 				<span>Desde<br />2019</span>
@@ -46,7 +43,7 @@ import HeroCutoutStack from './HeroCutoutStack.astro';
 		<div class="hero-cta-zone mt-1 -m-4 p-4">
 			<a
 				href="#final"
-				class="hero-cta-btn inline-flex items-center gap-2 rounded-full bg-gold-500 px-8 py-4 text-lg font-bold text-brand-900 shadow-lg will-change-transform hover:bg-gold-600"
+				class="hero-cta-btn inline-flex items-center gap-2 rounded-full bg-gold-500 px-8 py-4 text-lg font-bold text-brand-900 shadow-lg transition-[background-color,translate] duration-200 hover:-translate-y-0.5 hover:bg-gold-600"
 			>
 				<span class="hero-cta-label">¡Realiza tu Pedido!</span>
 			</a>
@@ -80,149 +77,39 @@ import HeroCutoutStack from './HeroCutoutStack.astro';
 	</a>
 </section>
 
-<script>
-	import gsap from 'gsap';
-	import { ScrollTrigger } from 'gsap/ScrollTrigger';
-	import { initHeroLoader } from '../lib/heroLoader';
-	import { HeroCarousel } from '../lib/heroCarousel';
-	import { initHeroAmbientMotion } from '../lib/heroAmbientMotion';
-	import { initMagneticButton } from '../lib/magneticButton';
-
-	gsap.registerPlugin(ScrollTrigger);
-
-	const mm = gsap.matchMedia();
-	const { whenReady } = initHeroLoader();
-	const carousel = new HeroCarousel();
-
-	mm.add(
-		{
-			reduceMotion: '(prefers-reduced-motion: reduce)',
-			okMotion: '(prefers-reduced-motion: no-preference)',
-			isMobile: '(max-width: 767px)',
-			isDesktop: '(min-width: 768px)',
-			canHover: '(hover: hover) and (pointer: fine)',
-		},
-		(context) => {
-			const { reduceMotion, isMobile, canHover } = context.conditions as {
-				reduceMotion: boolean;
-				isMobile: boolean;
-				canHover: boolean;
-			};
-
-			carousel.layout(0, 0, 'none');
-
-			if (reduceMotion) {
-				// Rotation MUST keep advancing through all 4 images under reduced
-				// motion — only the crossfade tween itself is simplified to an
-				// instant/short opacity swap (no transform/slide/scale).
-				gsap.set('.hero-logo, .hero-title-line, .hero-cta-zone, .hero-badge, .hero-scroll-indicator', {
-					autoAlpha: 0,
-				});
-				gsap.to('.hero-logo, .hero-title-line, .hero-cta-zone, .hero-badge, .hero-scroll-indicator', {
-					autoAlpha: 1,
-					duration: 0.7,
-					stagger: 0.15,
-					ease: 'power1.out',
-				});
-				gsap.set('.hero-particles', { autoAlpha: 1 });
-				carousel.startRotation(0.15, 'none');
-
-				// Gentle continuous ambient motion (opacity-only, no transform/parallax)
-				// so there's always something visibly alive, not just a one-time fade.
-				gsap.to('.hero-glow', {
-					opacity: 0.55,
-					duration: 3.5,
-					yoyo: true,
-					repeat: -1,
-					ease: 'sine.inOut',
-				});
-
-				return () => carousel.destroy();
-			}
-
-			playEntranceTimeline();
-			carousel.startRotation(0.8, 'power2.inOut');
-			const cleanupAmbient = initHeroAmbientMotion((offscreen) => carousel.setOffscreen(offscreen));
-
-			// Same magnetic pull as the closing CTA's WhatsApp button.
-			let cleanupMagnet: (() => void) | undefined;
-			if (canHover) {
-				cleanupMagnet = initMagneticButton(
-					document.querySelector<HTMLElement>('.hero-cta-zone')!,
-					document.querySelector<HTMLElement>('.hero-cta-btn')!,
-					document.querySelector<HTMLElement>('.hero-cta-label')
-				);
-			}
-
-			// Second pin+scrub: Hero exit transition into the next section.
-			// Disabled below the mobile breakpoint (matchMedia condition, so it
-			// rebuilds correctly when the viewport crosses 768px) to avoid two
-			// consecutive scroll-jacked pins on small screens.
-			if (!isMobile) initExitTransition();
-
-			return () => { cleanupMagnet?.(); cleanupAmbient(); carousel.destroy(); };
+<style>
+	/* Entrada ligera con CSS: arranca con el primer pintado, sin esperar
+	   a JavaScript ni bloquear la imagen principal (LCP). */
+	@media (prefers-reduced-motion: no-preference) {
+		.hero-logo-wrap,
+		.hero-title-line,
+		.hero-badge,
+		.hero-cta-zone {
+			animation: hero-in 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 		}
-	);
-
-	/** Refined reveal: the logo resolves out of a soft blur while the name
-	 * slides in beside it, line by line. Plays once the loader clears. */
-	function playEntranceTimeline() {
-		gsap.set('.hero-logo, .hero-title-line, .hero-pedestal-wrap, .hero-badge, .hero-cta-zone', { autoAlpha: 0 });
-		const tl = gsap.timeline({ defaults: { ease: 'power3.out' }, paused: true, delay: 0.15 });
-
-		tl.fromTo(
-			'.hero-logo',
-			{ autoAlpha: 0, x: -50, scale: 0.85, filter: 'blur(12px)' },
-			{ autoAlpha: 1, x: 0, scale: 1, filter: 'blur(0px)', duration: 1.1, ease: 'power3.out' }
-		)
-			.fromTo(
-				'.hero-title-line',
-				{ autoAlpha: 0, x: 60 },
-				{ autoAlpha: 1, x: 0, duration: 0.9, stagger: 0.14, ease: 'power4.out' },
-				'-=0.75'
-			)
-			.fromTo(
-				'.hero-pedestal-wrap',
-				{ autoAlpha: 0, y: 40, scale: 0.9 },
-				{ autoAlpha: 1, y: 0, scale: 1, duration: 0.8, ease: 'back.out(1.6)' },
-				'-=0.4'
-			)
-			.fromTo(
-				'.hero-badge',
-				{ autoAlpha: 0, scale: 0.5, rotation: -20 },
-				{ autoAlpha: 1, scale: 1, rotation: 0, duration: 0.6, ease: 'back.out(1.9)' },
-				'-=0.4'
-			)
-			.fromTo(
-				'.hero-cta-zone',
-				{ autoAlpha: 0, y: 30, scale: 0.7 },
-				{ autoAlpha: 1, y: 0, scale: 1, duration: 0.7, ease: 'back.out(1.9)' },
-				'-=0.3'
-			);
-
-		whenReady(() => tl.play());
+		.hero-title-line:nth-child(1) { animation-delay: 0.08s; }
+		.hero-title-line:nth-child(2) { animation-delay: 0.16s; }
+		.hero-title-line:nth-child(3) { animation-delay: 0.24s; }
+		.hero-badge { animation-delay: 0.4s; }
+		.hero-cta-zone { animation-delay: 0.32s; }
 	}
+	@keyframes hero-in {
+		from { opacity: 0; translate: 0 18px; }
+	}
+</style>
 
-	function initExitTransition() {
-		// fromTo (not to): the entrance timeline is deferred behind the page
-		// loader (whenReady), so at the moment this scrub timeline is created
-		// hero-cta/title/etc are often still at their hidden autoAlpha:0 initial
-		// state. A plain .to() would capture THAT as its "from" value and the
-		// button would never come back after scrolling back up. Explicit `from`
-		// values make the exit tween independent of the entrance's timing.
-		gsap
-			.timeline({
-				scrollTrigger: { trigger: '#hero', start: 'top top', end: '+=800', pin: true, scrub: true },
-			})
-			.to('.hero-pedestal-wrap', { scale: 0.75, y: -30, duration: 1, ease: 'none' }, 0)
-			.fromTo(
-				// The badge is deliberately NOT in this list: exit-fading it
-				// fought its float/drag tweens and could leave it invisible
-				// after scrolling back or reloading mid-page.
-				'.hero-title, .hero-logo-wrap, .hero-cta-zone, .hero-rotation-toggle, .hero-scroll-indicator, .hero-particles',
-				{ autoAlpha: 1, y: 0 },
-				{ autoAlpha: 0, y: -60, duration: 0.8, ease: 'none' },
-				0
-			);
+<script>
+	import { HeroCarousel } from '../lib/heroCarousel';
+
+	const carousel = new HeroCarousel();
+	const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+	carousel.layout(0, 0, 'none');
+	carousel.startRotation(reduceMotion ? 0.15 : 0.8, reduceMotion ? 'none' : 'power2.inOut');
+
+	// Pause the rotation while the hero is off screen so nothing animates unseen.
+	const hero = document.getElementById('hero');
+	if (hero) {
+		new IntersectionObserver(([entry]) => carousel.setOffscreen(!entry.isIntersecting)).observe(hero);
 	}
 </script>

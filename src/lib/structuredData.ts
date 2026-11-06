@@ -70,7 +70,7 @@ export async function buildHomeSchema() {
 			opens: h.opens,
 			closes: h.closes,
 		})),
-		servesCuisine: ['Colombiana', 'Lechona tolimense', 'Comida típica colombiana'],
+		servesCuisine: ['Colombiana', 'Lechona tradicional', 'Comida típica colombiana'],
 		hasMenu: { '@id': ids.menu },
 		acceptsReservations: false,
 		currenciesAccepted: 'COP',
@@ -79,7 +79,7 @@ export async function buildHomeSchema() {
 			{ '@type': 'City', name: 'Cali' },
 			{ '@type': 'AdministrativeArea', name: 'Valle del Cauca' },
 		],
-		knowsAbout: ['Lechona', 'Lechona tolimense', 'Cojín de lechona', 'Tamales vallunos', 'Tamales tolimenses', 'Pernil de cerdo'],
+		knowsAbout: ['Lechona', 'Lechona tradicional', 'Lechona mixta', 'Cojín de lechona', 'Tamales vallunos', 'Tamales tolimenses', 'Pernil de cerdo'],
 		contactPoint: {
 			'@type': 'ContactPoint',
 			telephone: BUSINESS_PHONE,

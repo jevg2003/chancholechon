@@ -29,7 +29,7 @@ export const faqs: { q: string; a: string }[] = [
 	},
 	{
 		q: '¿Qué otros productos tienen además de la lechona?',
-		a: 'Hacemos lechona con careta, cojín de lechona, lechona mixta (cabanos, pollo, costilla ahumada y cerdo), pernil de cerdo asado y tamales vallunos y tolimenses.',
+		a: 'Hacemos lechona con careta, cojín de lechona, lechona mixta (arroz, arveja, cerdo, pollo, costilla y cabanos), pernil de cerdo asado y tamales vallunos y tolimenses.',
 	},
 	{
 		q: '¿Cómo hago un pedido o una cotización?',

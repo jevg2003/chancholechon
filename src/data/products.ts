@@ -17,7 +17,7 @@ export const products: Product[] = [
 		id: 'lechona-careta',
 		name: 'Lechona con Careta',
 		image: img0,
-		info: 'Lechona tradicional tolimense con su careta y cuero súper crocante. Disponible desde 15 porciones, acompañada de arepas.',
+		info: 'Lechona tradicional con su careta y cuero súper crocante. Disponible desde 15 porciones, acompañada de arepas.',
 		message: 'Hola! Me interesa la Lechona con Careta. ¿Podrían darme más información y cotización?',
 	},
 	{
@@ -45,7 +45,7 @@ export const products: Product[] = [
 		id: 'caja-mixta',
 		name: 'Caja de Lechona Mixta',
 		image: img4,
-		info: 'Caja individual de nuestra lechona mixta: cabanos, pollo, costilla ahumada y cerdo en una sola ración.',
+		info: 'Ración individual de lechona mixta: arroz, arveja, cerdo, pollo, costilla y cabanos.',
 		message: 'Hola! Me interesa la Caja de Lechona Mixta. ¿Podrían darme más información y cotización?',
 	},
 	{
@@ -59,7 +59,7 @@ export const products: Product[] = [
 		id: 'lechona-mixta',
 		name: 'Lechona Mixta',
 		image: img6,
-		info: 'Lechona especial con cabanos, pollo, costilla ahumada y cerdo — todos los sabores de la casa en una sola.',
+		info: 'Nuestra lechona especial: arroz, arveja y carne de cerdo, con pollo, costilla y cabanos. Todos los sabores de la casa en una sola. Desde 15 porciones.',
 		message: 'Hola! Me interesa la Lechona Mixta. ¿Podrían darme más información y cotización?',
 	},
 	{

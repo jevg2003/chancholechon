@@ -4,6 +4,12 @@ Sitio de la lechonería Chancho el Lechón, en el barrio Siete de Agosto de Cali
 
 [Visitar la lechonería](https://lechoneriachanchoellechon.com/) · [Código fuente](https://github.com/jevg2003/chancholechon)
 
+## Vista del sitio
+
+![Portada del sitio de Chancho el Lechón](docs/screenshot.png)
+
+Captura de la portada pública; el envío del formulario depende de la configuración descrita abajo.
+
 ## Experiencia del cliente
 
 - Consulta el catálogo con fotos y detalles de los productos.

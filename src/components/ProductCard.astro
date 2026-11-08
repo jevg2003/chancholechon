@@ -22,7 +22,7 @@ const { product } = Astro.props;
 >
 	<Image
 		src={product.image}
-		alt={`${product.name} de Lechonería Chancho el Lechón en Cali`}
+		alt={product.imageAlt ?? `${product.name} de Lechonería Chancho el Lechón en Cali`}
 		widths={[320, 480, 720, 960]}
 		sizes="(min-width: 768px) 33vw, 50vw"
 		format="webp"

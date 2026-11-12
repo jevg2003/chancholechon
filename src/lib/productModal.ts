@@ -214,15 +214,15 @@ export function initProductModal() {
 		close();
 	});
 
-	// "Llenar solicitud": close, then jump to the form with this product picked.
+	// "Llenar solicitud": close, then jump to the form with the consulta started for this product.
 	dialog.querySelector<HTMLAnchorElement>('[data-pm-form]')?.addEventListener('click', (e) => {
 		e.preventDefault();
-		const productId = card?.dataset.product;
+		const nombre = title.textContent?.trim();
 		close(() => {
-			const select = document.getElementById('sol-producto') as HTMLSelectElement | null;
-			if (select && productId && !select.disabled) {
-				select.value = productId;
-				select.dispatchEvent(new Event('change', { bubbles: true }));
+			const consulta = document.getElementById('sol-consulta') as HTMLTextAreaElement | null;
+			if (consulta && nombre && !consulta.disabled && !consulta.value.trim()) {
+				consulta.value = `Hola, me interesa ${nombre}. `;
+				consulta.dispatchEvent(new Event('input', { bubbles: true }));
 			}
 			document.getElementById('solicitar-pedido')?.scrollIntoView({ behavior: reduce() ? 'auto' : 'smooth' });
 		});

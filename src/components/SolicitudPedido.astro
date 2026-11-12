@@ -26,12 +26,12 @@ const ready = Object.values(config).every(Boolean);
     <button type="submit" class="sol-submit inline-flex w-full items-center justify-center gap-3 rounded-full bg-gold-500 px-6 py-4 font-extrabold text-brand-900 hover:bg-gold-600"><span class="sol-spinner" aria-hidden="true"></span><svg class="sol-btn-check" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg><span class="sol-btn-texto">Enviar solicitud</span></button>
    </fieldset>
    <p id="sol-estado" role="status" aria-live="polite" tabindex="-1" class="mt-4 whitespace-pre-line text-sm leading-relaxed"></p>
-   <div class="sol-exito" hidden aria-hidden="true">
+   <div class="sol-exito" hidden>
     <div class="sol-exito-icono"><span class="sol-exito-onda"></span><svg viewBox="0 0 52 52"><circle class="sol-exito-circulo" cx="26" cy="26" r="24" /><path class="sol-exito-check" d="M15 27l7.5 7.5L37.5 18" /></svg></div>
     <p class="sol-exito-titulo">¡Tu solicitud fue enviada con éxito!</p>
     <p class="sol-exito-texto">Ya la recibimos. Te contactaremos pronto a tu celular para ayudarte con la cotización.</p>
     <p class="sol-exito-ref">Referencia <strong></strong></p>
-    <button type="button" class="sol-exito-otra" tabindex="-1">Enviar otra solicitud</button>
+    <button type="button" class="sol-exito-otra">Enviar otra solicitud</button>
     <span class="sol-exito-barra"></span>
    </div>
    <noscript><p class="mt-4 text-sm">Para solicitar sin JavaScript, <a href={WHATSAPP_URL} class="underline">escríbenos por WhatsApp</a>.</p></noscript>

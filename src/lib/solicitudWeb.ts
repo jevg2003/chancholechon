@@ -40,6 +40,7 @@ export function initSolicitudWeb(form: HTMLFormElement) {
   const contenido = exito.querySelectorAll('.sol-exito-titulo, .sol-exito-texto, .sol-exito-ref, .sol-exito-otra');
   const otra = exito.querySelector<HTMLButtonElement>('.sol-exito-otra');
   exito.hidden = false;
+  otra?.focus({preventScroll:true});
   await new Promise<void>(resolve=>{
    let cerrado = false;
    const cerrar = () => {
@@ -49,6 +50,7 @@ export function initSolicitudWeb(form: HTMLFormElement) {
     otra?.removeEventListener('click', cerrar);
     gsap.to(exito, {autoAlpha:0, y: reduce ? 0 : -8, duration: reduce ? .2 : .45, ease:'power2.in', onComplete:()=>{
      exito.hidden = true; gsap.set(exito, {clearProps:'all'}); setButton('idle');
+     estado.focus({preventScroll:true});
      gsap.fromTo(fieldset, {autoAlpha:0, y: reduce ? 0 : 10}, {autoAlpha:1, y:0, duration:.4, ease:'power2.out', clearProps:'all'});
      resolve();
     }});

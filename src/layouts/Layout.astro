@@ -74,11 +74,7 @@ const schema = isHome ? await buildHomeSchema() : buildPageSchema(Astro.url.path
 		<script type="application/ld+json" set:html={JSON.stringify(schema)} />
 
 		<!-- Favicons and app icons -->
-		<link rel="icon" href="/favicon.ico?v=2" sizes="any" />
-		<link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png?v=2" />
-		<link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png?v=2" />
-		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=2" />
-		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=2" />
+		<link rel="icon" type="image/webp" href="/media/logo-cabecita.webp" />
 		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=2" />
 		<link rel="manifest" href="/manifest.webmanifest" />
 
@@ -88,7 +84,7 @@ const schema = isHome ? await buildHomeSchema() : buildPageSchema(Astro.url.path
 		<!-- Performance hints -->
 		<link rel="preconnect" href="https://www.google.com" />
 		<link rel="dns-prefetch" href="https://wa.me" />
-		<link rel="preload" as="image" href="/media/logoChanchoLechon3.webp" />
+		<link rel="preload" as="image" href="/media/logo-cabecita.webp" />
 
 		{GOOGLE_SITE_VERIFICATION && <meta name="google-site-verification" content={GOOGLE_SITE_VERIFICATION} />}
 	</head>

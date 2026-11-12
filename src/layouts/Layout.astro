@@ -84,7 +84,7 @@ const schema = isHome ? await buildHomeSchema() : buildPageSchema(Astro.url.path
 		<!-- Performance hints -->
 		<link rel="preconnect" href="https://www.google.com" />
 		<link rel="dns-prefetch" href="https://wa.me" />
-		<link rel="preload" as="image" href="/media/logo-cabecita.webp" />
+		{isHome && <link rel="preload" as="image" href="/media/logo-horizontal-crema.webp" />}
 
 		{GOOGLE_SITE_VERIFICATION && <meta name="google-site-verification" content={GOOGLE_SITE_VERIFICATION} />}
 	</head>

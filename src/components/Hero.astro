@@ -11,24 +11,22 @@ import HeroCutoutStack from './HeroCutoutStack.astro';
 
 	<div class="hero-glow pointer-events-none absolute right-10 top-1/2 hidden h-96 w-96 -translate-y-1/2 rounded-full bg-gold-400/30 blur-3xl lg:block"></div>
 
-	<div class="hero-content relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col items-center justify-center gap-3 px-4 pb-24 pt-24 text-center">
+	<div class="hero-content relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col items-center justify-center gap-3 px-4 pb-24 pt-14 text-center sm:pt-16">
 
-		<div class="hero-heading flex items-center justify-center gap-4 sm:gap-7">
-			<div class="hero-logo-wrap shrink-0">
+		<div class="hero-heading flex w-full flex-col items-center gap-2 sm:gap-3">
+			<h1 class="hero-logo-wrap mx-auto w-full max-w-[24rem] sm:max-w-[28rem]">
 				<img
-					src="/media/logo-cabecita.webp"
-					alt=""
-					width="588"
-					height="520"
-					class="hero-logo h-20 w-auto drop-shadow-xl sm:h-32 lg:h-40"
+					src="/media/logo-horizontal-crema.webp"
+					alt="Lechonería Chancho el Lechón"
+					width="960"
+					height="505"
+					fetchpriority="high"
+					class="mx-auto block h-auto w-full"
 				/>
-			</div>
-
-			<h1 class="hero-title text-left font-extrabold leading-[1.05] tracking-tight">
-				<span class="hero-title-line block text-2xl sm:text-4xl lg:text-5xl">Lechonería</span>
-				<span class="hero-title-line block text-3xl text-gold-400 sm:text-5xl lg:text-6xl">Chancho el Lechón</span>
-				<span class="hero-title-line mt-1 block text-lg font-bold text-cream-50/90 sm:text-xl lg:text-2xl">La mejor lechona de Cali, en el 7 de Agosto</span>
 			</h1>
+			<p class="hero-tagline text-base font-bold text-cream-50/90 sm:text-xl">
+				La mejor lechona de Cali, en el 7 de Agosto
+			</p>
 		</div>
 
 		<div class="hero-pedestal-wrap relative mt-4 flex justify-center" tabindex="-1">
@@ -84,14 +82,12 @@ import HeroCutoutStack from './HeroCutoutStack.astro';
 	   a JavaScript ni bloquear la imagen principal (LCP). */
 	@media (prefers-reduced-motion: no-preference) {
 		.hero-logo-wrap,
-		.hero-title-line,
+		.hero-tagline,
 		.hero-badge,
 		.hero-cta-zone {
 			animation: hero-in 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 		}
-		.hero-title-line:nth-child(1) { animation-delay: 0.08s; }
-		.hero-title-line:nth-child(2) { animation-delay: 0.16s; }
-		.hero-title-line:nth-child(3) { animation-delay: 0.24s; }
+		.hero-tagline { animation-delay: 0.12s; }
 		.hero-badge { animation-delay: 0.4s; }
 		.hero-cta-zone { animation-delay: 0.32s; }
 	}

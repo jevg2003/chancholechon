@@ -5,7 +5,7 @@ import img1 from '../../public/media/cojin30.webp';
 import img2 from '../../public/media/pedidos-empacados-domicilio.jpg';
 import img3 from '../../public/media/racion-lechona-detalle.jpg';
 import img4 from '../../public/media/img/img4.webp';
-import imgTamales from '../assets/products/tamal-chancho-el-lechon.jpg';
+import imgTamales from '../assets/products/tamal-chancho-el-lechon-retocado.webp';
 import img6 from '../../public/media/img/img10.jpg';
 import img7 from '../../public/media/pernil-glaseado-1.jpg';
 import img8 from '../../public/media/pernil.webp';

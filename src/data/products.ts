@@ -6,7 +6,6 @@ import img2 from '../../public/media/pedidos-empacados-domicilio.jpg';
 import img3 from '../../public/media/racion-lechona-detalle.jpg';
 import img4 from '../../public/media/img/img4.webp';
 import imgTamales from '../assets/products/tamal-chancho-el-lechon-retocado.webp';
-import img6 from '../../public/media/img/img10.jpg';
 import img7 from '../../public/media/pernil-glaseado-1.jpg';
 import img8 from '../../public/media/pernil.webp';
 
@@ -59,7 +58,7 @@ export const products: Product[] = [
 	{
 		id: 'lechona-mixta',
 		name: 'Lechona Mixta',
-		image: img6,
+		image: img4,
 		info: 'Nuestra lechona especial: arroz, arveja y carne de cerdo, con pollo, costilla y cabanos. Todos los sabores de la casa en una sola. Desde 15 porciones.',
 		message: 'Hola! Me interesa la Lechona Mixta. ¿Podrían darme más información y cotización?',
 	},

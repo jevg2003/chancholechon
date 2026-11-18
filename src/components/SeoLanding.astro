@@ -1,0 +1,100 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Footer from './Footer.astro';
+import { Image } from 'astro:assets';
+import { products } from '../data/products';
+import { PHONE_E164, PHONE_DISPLAY } from '../lib/contact';
+import { seoPages } from '../data/seoPages';
+import type { SEOPage } from '../data/seoPages';
+
+interface Props { page: SEOPage }
+const { page } = Astro.props;
+const product = products.find((p) => p.id === page.productId);
+if (!product) throw new Error('Producto no encontrado: ' + page.productId);
+const phone = PHONE_E164.replace('+','');
+const quoteLink = 'https://wa.me/' + phone + '?text=' + encodeURIComponent(product.message);
+const related = seoPages.filter((p) => p.slug !== page.slug);
+---
+<Layout title={page.title} description={page.description}>
+  <header class="bg-brand-900 text-cream-50">
+    <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-4">
+      <a href="/" class="inline-flex items-center gap-3" aria-label="Lechonería Chancho el Lechón, volver al inicio">
+        <img src="/media/logo-cabecita.webp" alt="" width="588" height="520" class="h-12 w-auto" decoding="async" />
+        <span class="text-base font-extrabold leading-tight">Lechonería<br/><span class="text-gold-400">Chancho el Lechón</span></span>
+      </a>
+      <nav class="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm font-semibold" aria-label="Productos y servicios">
+        <a href="/" class="hover:text-gold-400">Inicio</a>
+        <a href="/lechona-mixta-cali/" class="hover:text-gold-400">Mixta</a>
+        <a href="/lechonas-para-eventos-cali/" class="hover:text-gold-400">Eventos</a>
+        <a href="/cajas-de-lechona-cali/" class="hover:text-gold-400">Cajas</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <section class="bg-brand-800 text-cream-50">
+      <div class="mx-auto grid max-w-6xl items-center gap-10 px-4 py-12 md:grid-cols-2 md:py-20">
+        <div>
+          <nav class="mb-6 text-sm text-cream-50/75" aria-label="Ruta de navegación">
+            <a href="/" class="underline-offset-4 hover:underline">Inicio</a><span aria-hidden="true"> / </span><span aria-current="page">{page.eyebrow}</span>
+          </nav>
+          <p class="text-sm font-black uppercase tracking-[0.18em] text-gold-400">{page.eyebrow}</p>
+          <h1 class="mt-3 text-4xl font-extrabold leading-tight sm:text-5xl">{page.heading}</h1>
+          <p class="mt-5 text-lg leading-relaxed text-cream-50/90">{page.intro}</p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a href={quoteLink} target="_blank" rel="noopener noreferrer" class="inline-flex min-h-12 items-center justify-center rounded-full bg-gold-500 px-7 py-3 font-extrabold text-brand-900 hover:bg-gold-600">Cotizar por WhatsApp</a>
+            <a href="/#solicitar-pedido" class="inline-flex min-h-12 items-center justify-center rounded-full border border-cream-50/70 px-6 py-3 font-bold hover:bg-brand-900">Solicitud de pedido</a>
+          </div>
+        </div>
+        <figure class="overflow-hidden rounded-3xl bg-brand-900 shadow-2xl">
+          <Image src={product.image} alt={page.imageAlt} widths={[480,760,1080]} sizes="(min-width: 768px) 48vw, 100vw" format="webp" quality={78} loading="eager" decoding="async" class="aspect-[4/3] h-auto w-full object-cover" />
+          <figcaption class="px-5 py-3 text-sm text-cream-50/80">{product.name} · Chancho el Lechón, Cali</figcaption>
+        </figure>
+      </div>
+    </section>
+    <section class="bg-cream-50 px-4 py-16 text-brand-900 sm:py-20" aria-labelledby="destacados">
+      <div class="mx-auto max-w-6xl">
+        <h2 id="destacados" class="max-w-3xl text-3xl font-extrabold text-brand-800 sm:text-4xl">Lo que puedes esperar</h2>
+        <div class="mt-8 grid gap-5 md:grid-cols-3">
+          {page.highlights.map((item) => (
+            <article class="rounded-3xl border border-brand-900/10 bg-white p-7 shadow-sm">
+              <h3 class="text-xl font-extrabold text-brand-800">{item.title}</h3>
+              <p class="mt-3 leading-relaxed text-brand-900/75">{item.text}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+    <section class="bg-white px-4 py-16 text-brand-900" aria-labelledby="detalle">
+      <div class="mx-auto max-w-3xl">
+        <h2 id="detalle" class="text-3xl font-extrabold text-brand-800 sm:text-4xl">{page.detailHeading}</h2>
+        {page.paragraphs.map((paragraph) => <p class="mt-5 text-lg leading-relaxed text-brand-900/80">{paragraph}</p>)}
+        <p class="mt-7 rounded-2xl bg-cream-50 p-5 leading-relaxed"><strong>Visítanos:</strong> Diagonal 15 #71A-56, barrio Siete de Agosto, Cali. Para cantidades, disponibilidad o entregas, llámanos al <a href={'tel:' + PHONE_E164} class="font-bold text-brand-600 underline underline-offset-4">{PHONE_DISPLAY}</a>.</p>
+      </div>
+    </section>
+    <section class="bg-cream-50 px-4 py-16 text-brand-900" aria-labelledby="preguntas-servicio">
+      <div class="mx-auto max-w-3xl">
+        <h2 id="preguntas-servicio" class="text-3xl font-extrabold text-brand-800 sm:text-4xl">Preguntas frecuentes</h2>
+        <div class="mt-6 divide-y divide-brand-900/15 border-t-2 border-brand-800">
+          {page.questions.map((item) => (
+            <details class="py-5"><summary class="cursor-pointer text-lg font-extrabold text-brand-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4">{item.q}</summary><p class="mt-3 leading-relaxed text-brand-900/80">{item.a}</p></details>
+          ))}
+        </div>
+      </div>
+    </section>
+    <section class="bg-brand-800 px-4 py-16 text-cream-50">
+      <div class="mx-auto max-w-6xl">
+        <h2 class="text-3xl font-extrabold sm:text-4xl">Explora otras opciones de lechona</h2>
+        <div class="mt-7 grid gap-4 sm:grid-cols-2">
+          {related.map((item) => (
+            <a href={'/' + item.slug + '/'} class="group block rounded-2xl border border-cream-50/25 bg-brand-900/40 p-6 hover:bg-brand-900">
+              <h3 class="text-xl font-extrabold text-gold-400 group-hover:underline">{item.eyebrow}</h3>
+              <p class="mt-2 text-cream-50/85">{item.teaser}</p>
+              <span class="mt-4 inline-block text-sm font-bold">Conocer y cotizar →</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

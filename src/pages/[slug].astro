@@ -1,0 +1,15 @@
+---
+import SeoLanding from '../components/SeoLanding.astro';
+import { seoPages } from '../data/seoPages';
+import type { SEOPage } from '../data/seoPages';
+
+export function getStaticPaths() {
+  return seoPages.map((page) => ({
+    params: { slug: page.slug },
+    props: { page },
+  }));
+}
+interface Props { page: SEOPage }
+const { page } = Astro.props;
+---
+<SeoLanding page={page} />

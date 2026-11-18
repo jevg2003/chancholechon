@@ -32,6 +32,10 @@ export const faqs: { q: string; a: string }[] = [
 		a: 'Hacemos lechona con careta, cojín de lechona, lechona mixta (arroz, arveja, cerdo, pollo, costilla y cabanos), pernil de cerdo asado y tamales vallunos y tolimenses.',
 	},
 	{
+		q: '¿La lechona mixta se consigue en caja y también entera?',
+		a: 'Sí, ofrecemos lechona mixta en cajas individuales y en lechonas enteras. Para eventos también cotizamos lechonas y cojines desde 15 porciones y cajas de lechona al por mayor.',
+	},
+	{
 		q: '¿Cómo hago un pedido o una cotización?',
 		a: 'Escríbenos por WhatsApp, llámanos o llena la solicitud de pedido en esta página. Acordamos contigo el precio, la disponibilidad y la entrega antes de confirmar. Si quieres, te damos una prueba del producto: solo pregúntanos.',
 	},

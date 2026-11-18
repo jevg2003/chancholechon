@@ -41,13 +41,6 @@ export const products: Product[] = [
 		message: 'Hola! Me interesa una Caja de Lechona al Detal. ¿Podrían darme más información?',
 	},
 	{
-		id: 'caja-mixta',
-		name: 'Caja de Lechona Mixta',
-		image: img4,
-		info: 'Ración individual de lechona mixta: arroz, arveja, cerdo, pollo, costilla y cabanos.',
-		message: 'Hola! Me interesa la Caja de Lechona Mixta. ¿Podrían darme más información y cotización?',
-	},
-	{
 		id: 'tamales',
 		name: 'Tamales',
 		image: imgTamales,
@@ -59,8 +52,8 @@ export const products: Product[] = [
 		id: 'lechona-mixta',
 		name: 'Lechona Mixta',
 		image: img4,
-		info: 'Nuestra lechona especial: arroz, arveja y carne de cerdo, con pollo, costilla y cabanos. Todos los sabores de la casa en una sola. Desde 15 porciones.',
-		message: 'Hola! Me interesa la Lechona Mixta. ¿Podrían darme más información y cotización?',
+		info: 'Lechona mixta con arroz, arveja, carne de cerdo, pollo, costilla y cabanos, acompañada de cuero crocante. Disponible en cajas individuales o en lechonas enteras para reuniones y eventos. Lechonas desde 15 porciones.',
+		message: 'Hola! Me interesa la Lechona Mixta. ¿Podrían indicarme las presentaciones y precios para cajas individuales y lechonas enteras?',
 	},
 	{
 		id: 'pernil',

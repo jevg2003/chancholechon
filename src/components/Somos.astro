@@ -32,10 +32,11 @@ const valores = [
 				cualquier presupuesto.
 			</p>
 
-			<dl class="somos-ficha mt-10 border-t-2 border-brand-800" data-reveal data-reveal-delay="140">
+			<div class="somos-ficha mt-10 border-t-2 border-brand-800" data-reveal data-reveal-delay="140">
 				<div class="py-3">
 					<p class="text-xs font-bold uppercase tracking-[0.2em] text-gold-700">Ficha de la casa</p>
 				</div>
+				<dl>
 				{
 					ficha.map((row) => (
 						<div class="somos-ficha-row grid gap-1 border-b border-brand-900/15 py-4 sm:grid-cols-[11rem_1fr] sm:gap-6">
@@ -45,6 +46,7 @@ const valores = [
 					))
 				}
 			</dl>
+			</div>
 		</div>
 
 		<figure class="relative mx-auto w-full max-w-sm lg:col-span-5 lg:mx-0 lg:max-w-none" data-reveal data-reveal-delay="120">

@@ -17,7 +17,7 @@ export default defineConfig({
     plugins: [tailwindcss()]
   },
 
-  integrations: [react(), sitemap({ lastmod: new Date(), changefreq: 'weekly' })],
+  integrations: [react(), sitemap()],
 
   // Disable dev toolbar to prevent SendBeforeConnectError HMR race condition
   devToolbar: {

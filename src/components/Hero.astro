@@ -14,7 +14,7 @@ import HeroCutoutStack from './HeroCutoutStack.astro';
 	<div class="hero-content relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col items-center justify-center gap-3 px-4 pb-24 pt-14 text-center sm:pt-16">
 
 		<div class="hero-heading flex w-full flex-col items-center gap-2 sm:gap-3">
-			<h1 class="hero-logo-wrap mx-auto w-full max-w-[24rem] sm:max-w-[28rem]">
+			<div class="hero-logo-wrap mx-auto w-full max-w-[24rem] sm:max-w-[28rem]">
 				<img
 					src="/media/logo-horizontal-crema.webp"
 					alt="Lechonería Chancho el Lechón"
@@ -23,10 +23,10 @@ import HeroCutoutStack from './HeroCutoutStack.astro';
 					fetchpriority="high"
 					class="mx-auto block h-auto w-full"
 				/>
+			</div>
+			<h1 class="hero-tagline text-base font-bold text-cream-50/90 sm:text-xl">
+				Lechona en Cali, la del 7 de Agosto
 			</h1>
-			<p class="hero-tagline text-base font-bold text-cream-50/90 sm:text-xl">
-				La mejor lechona de Cali, en el 7 de Agosto
-			</p>
 		</div>
 
 		<div class="hero-pedestal-wrap relative mt-4 flex justify-center" tabindex="-1">
